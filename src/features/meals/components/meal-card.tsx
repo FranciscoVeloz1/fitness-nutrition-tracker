@@ -42,19 +42,19 @@ export function MealCard({ meal, onFollowed, onLogDetails, isSaving }: MealCardP
         <div className="bg-muted/60 mt-3 space-y-1 rounded-xl p-3 text-sm">
           {meal.actualDescription ? (
             <p>
-              <span className="text-muted-foreground">Ate instead: </span>
+              <span className="text-muted-foreground">Comió en su lugar: </span>
               {meal.actualDescription}
             </p>
           ) : null}
           {meal.estimatedCalories ? (
             <p>
-              <span className="text-muted-foreground">Est. calories: </span>
+              <span className="text-muted-foreground">Cal. estimadas: </span>
               {meal.estimatedCalories} kcal
             </p>
           ) : null}
           {meal.notes ? (
             <p>
-              <span className="text-muted-foreground">Notes: </span>
+              <span className="text-muted-foreground">Notas: </span>
               {meal.notes}
             </p>
           ) : null}
@@ -75,7 +75,7 @@ export function MealCard({ meal, onFollowed, onLogDetails, isSaving }: MealCardP
             }}
           />
           <Label htmlFor={`followed-${meal.slot}`} className="cursor-pointer text-sm font-normal">
-            I followed the planned meal
+            Seguí la comida planeada
           </Label>
         </div>
         {!isFollowed ? (
@@ -84,7 +84,7 @@ export function MealCard({ meal, onFollowed, onLogDetails, isSaving }: MealCardP
             onClick={() => setDialogOpen(true)}
             className="text-primary text-xs font-medium hover:underline"
           >
-            {meal.status === 'pending' ? 'Log what happened' : 'Edit details'}
+            {meal.status === 'pending' ? 'Registrar qué pasó' : 'Editar detalles'}
           </button>
         ) : null}
       </div>

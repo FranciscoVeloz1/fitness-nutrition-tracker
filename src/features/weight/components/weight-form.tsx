@@ -11,7 +11,7 @@ import type { WeightEntry } from '@/types/weight'
 import { displayToKg, kgToDisplay, weightUnitLabel } from '@/services/units'
 
 const weightFormSchema = z.object({
-  weight: z.coerce.number().positive('Enter a valid weight').max(999),
+  weight: z.coerce.number().positive('Ingresa un peso válido').max(999),
   // `z.literal('')` must come before `z.coerce.number()` in the union: since
   // `Number('') === 0`, checking the number branch first would let an empty
   // field silently coerce to a "real" 0 reading instead of "not entered".
@@ -77,7 +77,7 @@ export function WeightForm({ unit, defaultValues, isSaving, onSubmit }: WeightFo
     <form onSubmit={form.handleSubmit(handleSubmit)} className="glass-panel space-y-4 rounded-2xl p-5">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="weight">Weight ({weightUnitLabel(unit)})</Label>
+          <Label htmlFor="weight">Peso ({weightUnitLabel(unit)})</Label>
           <Input id="weight" type="number" step="0.1" inputMode="decimal" {...form.register('weight')} />
           {form.formState.errors.weight ? (
             <p className="text-destructive text-xs">{form.formState.errors.weight.message}</p>
@@ -85,28 +85,28 @@ export function WeightForm({ unit, defaultValues, isSaving, onSubmit }: WeightFo
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="bodyFatPct">Body fat % (optional)</Label>
+          <Label htmlFor="bodyFatPct">% de grasa corporal (opcional)</Label>
           <Input id="bodyFatPct" type="number" step="0.1" inputMode="decimal" {...form.register('bodyFatPct')} />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="muscleMassPct">Muscle mass % (optional)</Label>
+          <Label htmlFor="muscleMassPct">% de masa muscular (opcional)</Label>
           <Input id="muscleMassPct" type="number" step="0.1" inputMode="decimal" {...form.register('muscleMassPct')} />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="waist">Waist, cm (optional)</Label>
+          <Label htmlFor="waist">Cintura, cm (opcional)</Label>
           <Input id="waist" type="number" step="0.1" inputMode="decimal" {...form.register('waist')} />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="notes">Notes (optional)</Label>
-        <Textarea id="notes" rows={2} placeholder="How are you feeling today?" {...form.register('notes')} />
+        <Label htmlFor="notes">Notas (opcional)</Label>
+        <Textarea id="notes" rows={2} placeholder="¿Cómo te sientes hoy?" {...form.register('notes')} />
       </div>
 
       <Button type="submit" disabled={isSaving} className="w-full sm:w-auto">
-        {isSaving ? 'Saving…' : 'Save weight'}
+        {isSaving ? 'Guardando…' : 'Guardar peso'}
       </Button>
     </form>
   )

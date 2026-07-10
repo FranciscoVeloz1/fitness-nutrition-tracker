@@ -8,13 +8,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { WORKOUT_CATEGORIES, WORKOUT_INTENSITIES } from '@/types/workout'
+import { WORKOUT_CATEGORIES, WORKOUT_INTENSITIES, CATEGORY_LABELS, INTENSITY_LABELS } from '@/types/workout'
 import type { WorkoutEntry } from '@/types/workout'
 
 const workoutFormSchema = z.object({
   completed: z.boolean(),
   category: z.enum(WORKOUT_CATEGORIES),
-  type: z.string().min(1, 'Give this workout a name').max(60),
+  type: z.string().min(1, 'Dale un nombre a este entrenamiento').max(60),
   durationMinutes: z.coerce.number().min(0).max(600),
   intensity: z.enum(WORKOUT_INTENSITIES),
   notes: z.string().max(300).optional(),
@@ -22,20 +22,6 @@ const workoutFormSchema = z.object({
 
 type WorkoutFormInput = z.input<typeof workoutFormSchema>
 export type WorkoutFormValues = z.output<typeof workoutFormSchema>
-
-const CATEGORY_LABELS: Record<(typeof WORKOUT_CATEGORIES)[number], string> = {
-  cardio: 'Cardio',
-  strength: 'Strength',
-  stretching: 'Stretching',
-  mixed: 'Mixed',
-  rest: 'Rest day',
-}
-
-const INTENSITY_LABELS: Record<(typeof WORKOUT_INTENSITIES)[number], string> = {
-  low: 'Low',
-  moderate: 'Moderate',
-  high: 'High',
-}
 
 interface WorkoutFormProps {
   defaultValues?: Partial<WorkoutEntry>
@@ -74,9 +60,9 @@ export function WorkoutForm({ defaultValues, isSaving, onSubmit }: WorkoutFormPr
       <div className="flex items-center justify-between rounded-xl border p-3">
         <div>
           <Label htmlFor="completed" className="font-medium">
-            Workout completed
+            Entrenamiento completado
           </Label>
-          <p className="text-muted-foreground text-xs">Toggle off to log a rest day.</p>
+          <p className="text-muted-foreground text-xs">Desactívalo para registrar un día de descanso.</p>
         </div>
         <Controller
           control={form.control}
@@ -87,15 +73,15 @@ export function WorkoutForm({ defaultValues, isSaving, onSubmit }: WorkoutFormPr
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="type">Workout type</Label>
-          <Input id="type" placeholder="e.g. Push day, 5k run" {...form.register('type')} />
+          <Label htmlFor="type">Tipo de entrenamiento</Label>
+          <Input id="type" placeholder="ej. Día de empuje, carrera de 5k" {...form.register('type')} />
           {form.formState.errors.type ? (
             <p className="text-destructive text-xs">{form.formState.errors.type.message}</p>
           ) : null}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category">Category</Label>
+          <Label htmlFor="category">Categoría</Label>
           <Controller
             control={form.control}
             name="category"
@@ -117,12 +103,12 @@ export function WorkoutForm({ defaultValues, isSaving, onSubmit }: WorkoutFormPr
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="durationMinutes">Duration (minutes)</Label>
+          <Label htmlFor="durationMinutes">Duración (minutos)</Label>
           <Input id="durationMinutes" type="number" inputMode="numeric" min={0} {...form.register('durationMinutes')} />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="intensity">Intensity</Label>
+          <Label htmlFor="intensity">Intensidad</Label>
           <Controller
             control={form.control}
             name="intensity"
@@ -145,12 +131,12 @@ export function WorkoutForm({ defaultValues, isSaving, onSubmit }: WorkoutFormPr
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="notes">Notes (optional)</Label>
-        <Textarea id="notes" rows={3} placeholder="How did it feel?" {...form.register('notes')} />
+        <Label htmlFor="notes">Notas (opcional)</Label>
+        <Textarea id="notes" rows={3} placeholder="¿Cómo te sentiste?" {...form.register('notes')} />
       </div>
 
       <Button type="submit" disabled={isSaving} className="w-full sm:w-auto">
-        {isSaving ? 'Saving…' : 'Save workout'}
+        {isSaving ? 'Guardando…' : 'Guardar entrenamiento'}
       </Button>
     </form>
   )

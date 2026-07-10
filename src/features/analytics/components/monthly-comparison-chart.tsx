@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { DailyRecord } from '@/types/daily-record'
 import { computeAdherence } from '@/services/adherence'
@@ -12,7 +13,7 @@ export function MonthlyComparisonChart({ records }: { records: DailyRecord[] }) 
     const byMonth = new Map<string, { adherenceSum: number; adherenceCount: number; workoutDays: number; totalDays: number }>()
 
     for (const record of records) {
-      const monthKey = format(parseDateKey(record.date), 'MMM yyyy')
+      const monthKey = format(parseDateKey(record.date), 'MMM yyyy', { locale: es })
       const bucket = byMonth.get(monthKey) ?? { adherenceSum: 0, adherenceCount: 0, workoutDays: 0, totalDays: 0 }
       bucket.adherenceSum += computeAdherence(record.date, record.meals).adherencePct
       bucket.adherenceCount += 1
@@ -31,7 +32,7 @@ export function MonthlyComparisonChart({ records }: { records: DailyRecord[] }) 
   }, [records])
 
   if (chartData.length === 0) {
-    return <EmptyState icon={CalendarRange} title="Not enough history yet" description="Come back after a few weeks of logging." />
+    return <EmptyState icon={CalendarRange} title="Aún no hay suficiente historial" description="Vuelve después de algunas semanas de registro." />
   }
 
   return (
@@ -45,8 +46,8 @@ export function MonthlyComparisonChart({ records }: { records: DailyRecord[] }) 
             contentStyle={{ borderRadius: 12, border: '1px solid var(--border)', background: 'var(--popover)' }}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          <Bar dataKey="adherence" name="Diet adherence" radius={[8, 8, 0, 0]} fill="var(--color-chart-1)" />
-          <Bar dataKey="workoutCompletion" name="Workout completion" radius={[8, 8, 0, 0]} fill="var(--color-chart-2)" />
+          <Bar dataKey="adherence" name="Adherencia a la dieta" radius={[8, 8, 0, 0]} fill="var(--color-chart-1)" />
+          <Bar dataKey="workoutCompletion" name="Cumplimiento de entrenamiento" radius={[8, 8, 0, 0]} fill="var(--color-chart-2)" />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -18,8 +18,8 @@ export function DataManagementCard() {
 
   const handleExport = (): void => {
     exportBackup.mutate(undefined, {
-      onSuccess: () => toast.success('Backup downloaded'),
-      onError: (error) => toast.error('Export failed', { description: error.message }),
+      onSuccess: () => toast.success('Copia de seguridad descargada'),
+      onError: (error) => toast.error('Error al exportar', { description: error.message }),
     })
   }
 
@@ -38,12 +38,12 @@ export function DataManagementCard() {
     }
     importBackup.mutate(pendingFile, {
       onSuccess: () => {
-        toast.success('Data restored from backup')
+        toast.success('Datos restaurados desde la copia de seguridad')
         setImportDialogOpen(false)
         setPendingFile(null)
       },
       onError: (error) => {
-        const message = error instanceof BackupValidationError ? error.message : 'Import failed'
+        const message = error instanceof BackupValidationError ? error.message : 'Error al importar'
         toast.error(message)
       },
     })
@@ -52,10 +52,10 @@ export function DataManagementCard() {
   const handleConfirmReset = (): void => {
     resetAllData.mutate(undefined, {
       onSuccess: () => {
-        toast.success('All data has been reset')
+        toast.success('Todos los datos se restablecieron')
         setResetDialogOpen(false)
       },
-      onError: (error) => toast.error('Reset failed', { description: error.message }),
+      onError: (error) => toast.error('Error al restablecer', { description: error.message }),
     })
   }
 
@@ -64,27 +64,27 @@ export function DataManagementCard() {
       <div className="flex flex-wrap gap-3">
         <Button variant="outline" onClick={handleExport} disabled={exportBackup.isPending}>
           <Download className="size-4" />
-          Export JSON
+          Exportar JSON
         </Button>
 
         <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
           <Upload className="size-4" />
-          Import JSON
+          Importar JSON
         </Button>
         <input ref={fileInputRef} type="file" accept="application/json" className="hidden" onChange={handleFileSelected} />
 
         <Button variant="destructive" onClick={() => setResetDialogOpen(true)}>
           <Trash2 className="size-4" />
-          Reset all data
+          Restablecer todos los datos
         </Button>
       </div>
 
       <ConfirmDialog
         open={importDialogOpen}
         onOpenChange={setImportDialogOpen}
-        title="Restore from backup?"
-        description="This will replace all current meals, workouts, weight entries, and settings with the contents of the selected file. This cannot be undone."
-        confirmLabel="Restore"
+        title="¿Restaurar desde una copia de seguridad?"
+        description="Esto reemplazará todas las comidas, entrenamientos, registros de peso y la configuración actuales con el contenido del archivo seleccionado. Esta acción no se puede deshacer."
+        confirmLabel="Restaurar"
         destructive
         isConfirming={importBackup.isPending}
         onConfirm={handleConfirmImport}
@@ -93,9 +93,9 @@ export function DataManagementCard() {
       <ConfirmDialog
         open={resetDialogOpen}
         onOpenChange={setResetDialogOpen}
-        title="Reset all data?"
-        description="This permanently deletes every meal, workout, and weight entry, and restores default settings. This cannot be undone."
-        confirmLabel="Reset everything"
+        title="¿Restablecer todos los datos?"
+        description="Esto elimina permanentemente cada comida, entrenamiento y registro de peso, y restablece la configuración predeterminada. Esta acción no se puede deshacer."
+        confirmLabel="Restablecer todo"
         destructive
         isConfirming={resetAllData.isPending}
         onConfirm={handleConfirmReset}

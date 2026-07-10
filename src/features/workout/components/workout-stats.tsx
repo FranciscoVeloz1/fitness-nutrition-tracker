@@ -2,29 +2,31 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { StatCard } from '@/components/common/stat-card'
 import { Flame, Timer, TrendingUp } from 'lucide-react'
 import type { WorkoutSummary } from '@/types/statistics'
+import type { WorkoutCategory } from '@/types/workout'
+import { CATEGORY_LABELS } from '@/types/workout'
 
 export function WorkoutStats({ summary }: { summary: WorkoutSummary }) {
   const chartData = Object.entries(summary.categoryCounts)
     .filter(([, count]) => count > 0)
-    .map(([category, count]) => ({ category, count }))
+    .map(([category, count]) => ({ category: CATEGORY_LABELS[category as WorkoutCategory], count }))
 
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <StatCard
-          label="Completion (30d)"
+          label="Cumplimiento (30d)"
           value={`${summary.completionPct}%`}
           icon={TrendingUp}
           accentClassName="bg-primary/10 text-primary"
         />
         <StatCard
-          label="Total minutes"
+          label="Minutos totales"
           value={summary.totalMinutes}
           icon={Timer}
           accentClassName="bg-accent/15 text-accent"
         />
         <StatCard
-          label="Avg. duration"
+          label="Duración prom."
           value={`${summary.averageDurationMinutes} min`}
           icon={Flame}
           accentClassName="bg-warning/15 text-warning"
@@ -36,7 +38,7 @@ export function WorkoutStats({ summary }: { summary: WorkoutSummary }) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
-              <XAxis dataKey="category" tickLine={false} axisLine={false} className="text-xs capitalize" />
+              <XAxis dataKey="category" tickLine={false} axisLine={false} className="text-xs" />
               <YAxis allowDecimals={false} tickLine={false} axisLine={false} width={24} />
               <Tooltip
                 contentStyle={{ borderRadius: 12, border: '1px solid var(--border)', background: 'var(--popover)' }}

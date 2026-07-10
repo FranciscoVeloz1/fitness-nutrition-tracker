@@ -7,7 +7,7 @@ import { LineChart as LineChartIcon } from 'lucide-react'
 
 export function AdherenceTrendChart({ records }: { records: DailyRecord[] }) {
   if (records.length === 0) {
-    return <EmptyState icon={LineChartIcon} title="No adherence data yet" description="Log meals to see your trend." />
+    return <EmptyState icon={LineChartIcon} title="Aún no hay datos de adherencia" description="Registra comidas para ver tu tendencia." />
   }
 
   const chartData = records.map((record) => ({
@@ -30,7 +30,7 @@ export function AdherenceTrendChart({ records }: { records: DailyRecord[] }) {
           <YAxis domain={[0, 100]} tickLine={false} axisLine={false} width={32} unit="%" className="text-xs" />
           <Tooltip
             contentStyle={{ borderRadius: 12, border: '1px solid var(--border)', background: 'var(--popover)' }}
-            formatter={(value) => [`${value}%`, 'Adherence']}
+            formatter={(value) => [`${value}%`, 'Adherencia']}
           />
           <Area
             type="monotone"

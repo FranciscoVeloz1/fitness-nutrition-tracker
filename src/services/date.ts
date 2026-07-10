@@ -1,4 +1,5 @@
 import { format, parseISO, addDays, differenceInCalendarDays, isValid } from 'date-fns'
+import { es } from 'date-fns/locale'
 import type { DateKey } from '@/types/common'
 
 const DATE_KEY_FORMAT = 'yyyy-MM-dd'
@@ -36,10 +37,12 @@ export function isConsecutiveDay(previous: DateKey, next: DateKey): boolean {
   return diffInDays(previous, next) === 1
 }
 
+/** e.g. "Viernes, 10 de julio" (date-fns lowercases weekday names in `es`; capitalized here for use as a heading). */
 export function formatDisplayDate(date: DateKey): string {
-  return format(parseDateKey(date), 'EEEE, MMMM d')
+  const formatted = format(parseDateKey(date), "EEEE, d 'de' MMMM", { locale: es })
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
 export function formatShortDate(date: DateKey): string {
-  return format(parseDateKey(date), 'MMM d')
+  return format(parseDateKey(date), 'd MMM', { locale: es })
 }

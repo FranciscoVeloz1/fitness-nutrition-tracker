@@ -26,8 +26,8 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = 'Confirmar',
+  cancelLabel = 'Cancelar',
   destructive = false,
   isConfirming = false,
   onConfirm,
@@ -44,7 +44,7 @@ export function ConfirmDialog({
             {cancelLabel}
           </Button>
           <Button variant={destructive ? 'destructive' : 'default'} onClick={onConfirm} disabled={isConfirming}>
-            {isConfirming ? 'Please wait…' : confirmLabel}
+            {isConfirming ? 'Espera un momento…' : confirmLabel}
           </Button>
         </DialogFooter>
       </DialogContent>

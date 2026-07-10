@@ -46,7 +46,7 @@ export default function DashboardPage() {
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatCard
-            label="Current weight"
+            label="Peso actual"
             value={summary.weight.latestKg !== undefined ? `${kgToDisplay(summary.weight.latestKg, unit)} ${weightUnitLabel(unit)}` : '—'}
             icon={Scale}
             trend={
@@ -55,8 +55,8 @@ export default function DashboardPage() {
                     direction: weightDelta > 0 ? 'up' : weightDelta < 0 ? 'down' : 'flat',
                     label:
                       weightDelta === 0
-                        ? 'No change vs. yesterday'
-                        : `${kgToDisplay(Math.abs(weightDelta), unit)} ${weightUnitLabel(unit)} vs. last entry`,
+                        ? 'Sin cambio vs. ayer'
+                        : `${kgToDisplay(Math.abs(weightDelta), unit)} ${weightUnitLabel(unit)} vs. el último registro`,
                     tone: weightDelta === 0 ? 'neutral' : weightDelta < 0 ? 'positive' : 'negative',
                   }
                 : undefined
@@ -64,24 +64,24 @@ export default function DashboardPage() {
             accentClassName="bg-primary/10 text-primary"
           />
           <StatCard
-            label="Diet adherence"
+            label="Adherencia a la dieta"
             value={summary.adherenceToday ? `${summary.adherenceToday.adherencePct}%` : '—'}
             icon={UtensilsCrossed}
             trend={{
               direction: 'flat',
-              label: `${summary.mealsFollowedToday}/${summary.mealsPlannedToday} meals followed`,
+              label: `${summary.mealsFollowedToday}/${summary.mealsPlannedToday} comidas cumplidas`,
               tone: 'neutral',
             }}
             accentClassName="bg-success/10 text-success"
           />
           <StatCard
-            label="Workout"
-            value={summary.workoutCompletedToday ? 'Completed' : 'Not yet'}
+            label="Entrenamiento"
+            value={summary.workoutCompletedToday ? 'Completado' : 'Aún no'}
             icon={Dumbbell}
             accentClassName={summary.workoutCompletedToday ? 'bg-success/10 text-success' : 'bg-muted text-muted-foreground'}
           />
           <StatCard
-            label="Weight change"
+            label="Cambio de peso"
             value={weightDelta !== undefined ? `${weightDelta > 0 ? '+' : ''}${kgToDisplay(weightDelta, unit)} ${weightUnitLabel(unit)}` : '—'}
             icon={deltaIcon}
             accentClassName="bg-accent/15 text-accent"
@@ -93,15 +93,15 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         <div className="space-y-3">
-          <SectionHeader title="This week" description="Daily diet adherence for the last 7 days." />
+          <SectionHeader title="Esta semana" description="Adherencia diaria a la dieta durante los últimos 7 días." />
           {weekRecords ? <WeeklySummaryChart records={weekRecords} /> : <CardSkeleton />}
         </div>
 
         <div className="space-y-3">
-          <SectionHeader title="Weekly average" />
+          <SectionHeader title="Promedio semanal" />
           <div className="glass-panel flex h-56 flex-col items-center justify-center gap-2 rounded-2xl p-4">
             <ProgressRing value={summary?.weeklyAdherenceAvgPct ?? 0} size={104} colorClassName="text-success" />
-            <p className="text-muted-foreground text-xs">Avg. adherence this week</p>
+            <p className="text-muted-foreground text-xs">Adherencia promedio esta semana</p>
           </div>
         </div>
       </div>

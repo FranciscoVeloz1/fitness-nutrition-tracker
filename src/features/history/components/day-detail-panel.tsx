@@ -27,7 +27,7 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
     return (
       <div className="space-y-3">
         <p className="text-muted-foreground text-sm">{formatDisplayDate(date)}</p>
-        <EmptyState icon={CalendarX} title="Nothing logged" description="No meals, workout, or weight recorded for this day." />
+        <EmptyState icon={CalendarX} title="Nada registrado" description="No se registraron comidas, entrenamiento ni peso este día." />
       </div>
     )
   }
@@ -38,8 +38,8 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
     updateNotes.mutate(
       { date, notes: notesDraft },
       {
-        onSuccess: () => toast.success('Notes saved'),
-        onError: (error) => toast.error('Could not save notes', { description: error.message }),
+        onSuccess: () => toast.success('Notas guardadas'),
+        onError: (error) => toast.error('No se pudieron guardar las notas', { description: error.message }),
       },
     )
   }
@@ -52,7 +52,7 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm font-medium">Meals</p>
+        <p className="text-sm font-medium">Comidas</p>
         <div className="space-y-1.5">
           {record.meals.map((meal) => (
             <div key={meal.slot} className="flex items-center justify-between rounded-xl border px-3 py-2 text-sm">
@@ -66,34 +66,34 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl border p-3">
           <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
-            <Dumbbell className="size-3.5" /> Workout
+            <Dumbbell className="size-3.5" /> Entrenamiento
           </p>
           <p className="mt-1 text-sm font-medium">
-            {record.workout ? (record.workout.completed ? record.workout.type : 'Rest day') : 'Not logged'}
+            {record.workout ? (record.workout.completed ? record.workout.type : 'Día de descanso') : 'Sin registrar'}
           </p>
         </div>
         <div className="rounded-xl border p-3">
           <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
-            <Scale className="size-3.5" /> Weight
+            <Scale className="size-3.5" /> Peso
           </p>
           <p className="mt-1 text-sm font-medium">
-            {record.weight ? `${kgToDisplay(record.weight.weightKg, unit)} ${weightUnitLabel(unit)}` : 'Not logged'}
+            {record.weight ? `${kgToDisplay(record.weight.weightKg, unit)} ${weightUnitLabel(unit)}` : 'Sin registrar'}
           </p>
         </div>
       </div>
 
       <div className="space-y-2">
         <p className="flex items-center gap-1.5 text-sm font-medium">
-          <StickyNote className="size-3.5" /> Notes
+          <StickyNote className="size-3.5" /> Notas
         </p>
         <Textarea
           rows={3}
           value={notesDraft}
           onChange={(event) => setNotesDraft(event.target.value)}
-          placeholder="Anything worth remembering about this day"
+          placeholder="Algo que valga la pena recordar sobre este día"
         />
         <Button size="sm" variant="outline" onClick={handleSaveNotes} disabled={updateNotes.isPending}>
-          {updateNotes.isPending ? 'Saving…' : 'Save notes'}
+          {updateNotes.isPending ? 'Guardando…' : 'Guardar notas'}
         </Button>
       </div>
     </div>

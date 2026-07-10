@@ -7,7 +7,7 @@ import { formatShortDate } from '@/services/date'
 
 export function WeeklySummaryChart({ records }: { records: DailyRecord[] }) {
   if (records.length === 0) {
-    return <EmptyState icon={BarChart3} title="No data yet this week" description="Log a meal to see your weekly trend." />
+    return <EmptyState icon={BarChart3} title="Aún no hay datos esta semana" description="Registra una comida para ver tu tendencia semanal." />
   }
 
   const chartData = records.map((record) => ({
@@ -24,7 +24,7 @@ export function WeeklySummaryChart({ records }: { records: DailyRecord[] }) {
           <YAxis domain={[0, 100]} tickLine={false} axisLine={false} width={32} unit="%" className="text-xs" />
           <Tooltip
             contentStyle={{ borderRadius: 12, border: '1px solid var(--border)', background: 'var(--popover)' }}
-            formatter={(value) => [`${value}%`, 'Adherence']}
+            formatter={(value) => [`${value}%`, 'Adherencia']}
           />
           <Bar dataKey="adherence" radius={[8, 8, 0, 0]} fill="var(--color-chart-1)" maxBarSize={36} />
         </BarChart>

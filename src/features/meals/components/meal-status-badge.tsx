@@ -4,10 +4,10 @@ import { cn } from '@/lib/utils'
 import type { MealStatus } from '@/types/meal'
 
 const STATUS_CONFIG: Record<MealStatus, { label: string; icon: typeof CheckCircle2; className: string }> = {
-  followed: { label: 'Followed', icon: CheckCircle2, className: 'bg-success/15 text-success border-success/30' },
-  modified: { label: 'Modified', icon: AlertTriangle, className: 'bg-warning/15 text-warning border-warning/30' },
-  skipped: { label: 'Skipped', icon: XCircle, className: 'bg-destructive/15 text-destructive border-destructive/30' },
-  pending: { label: 'Pending', icon: Circle, className: 'bg-muted text-muted-foreground border-border' },
+  followed: { label: 'Cumplido', icon: CheckCircle2, className: 'bg-success/15 text-success border-success/30' },
+  modified: { label: 'Modificado', icon: AlertTriangle, className: 'bg-warning/15 text-warning border-warning/30' },
+  skipped: { label: 'Omitido', icon: XCircle, className: 'bg-destructive/15 text-destructive border-destructive/30' },
+  pending: { label: 'Pendiente', icon: Circle, className: 'bg-muted text-muted-foreground border-border' },
 }
 
 export function MealStatusBadge({ status }: { status: MealStatus }) {

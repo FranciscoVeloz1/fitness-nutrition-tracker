@@ -64,7 +64,7 @@ export function ContributionHeatmap({ records }: { records: DailyRecord[] }) {
                 {!day.isFuture ? (
                   <TooltipContent>
                     {formatDisplayDate(day.dateKey)} ·{' '}
-                    {day.adherencePct !== undefined ? `${day.adherencePct}% adherence` : 'No data'}
+                    {day.adherencePct !== undefined ? `${day.adherencePct}% de adherencia` : 'Sin datos'}
                   </TooltipContent>
                 ) : null}
               </Tooltip>
@@ -73,12 +73,12 @@ export function ContributionHeatmap({ records }: { records: DailyRecord[] }) {
         ))}
       </div>
       <div className="text-muted-foreground mt-3 flex items-center gap-2 text-xs">
-        <span>Less</span>
+        <span>Menos</span>
         <span className="bg-destructive/25 size-3 rounded-sm" />
         <span className="bg-warning/35 size-3 rounded-sm" />
         <span className="bg-primary/40 size-3 rounded-sm" />
         <span className="bg-success/70 size-3 rounded-sm" />
-        <span>More</span>
+        <span>Más</span>
       </div>
     </div>
   )

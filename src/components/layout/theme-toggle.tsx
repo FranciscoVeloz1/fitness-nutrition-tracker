@@ -9,9 +9,9 @@ import {
 import { Button } from '@/components/ui/button'
 
 const THEME_OPTIONS = [
-  { value: 'dark', label: 'Dark', icon: Moon },
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'system', label: 'System', icon: Monitor },
+  { value: 'dark', label: 'Oscuro', icon: Moon },
+  { value: 'light', label: 'Claro', icon: Sun },
+  { value: 'system', label: 'Sistema', icon: Monitor },
 ] as const
 
 export function ThemeToggle() {
@@ -21,7 +21,7 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Toggle theme">
+        <Button variant="outline" size="icon" aria-label="Cambiar tema">
           <ActiveIcon className="size-4" />
         </Button>
       </DropdownMenuTrigger>

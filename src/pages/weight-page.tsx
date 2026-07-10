@@ -31,8 +31,8 @@ export default function WeightPage() {
     updateWeight.mutate(
       { date: selectedDate, weight: entry },
       {
-        onSuccess: () => toast.success('Weight logged'),
-        onError: (mutationError) => toast.error('Could not save weight', { description: mutationError.message }),
+        onSuccess: () => toast.success('Peso registrado'),
+        onError: (mutationError) => toast.error('No se pudo guardar el peso', { description: mutationError.message }),
       },
     )
   }
@@ -44,8 +44,8 @@ export default function WeightPage() {
   return (
     <div className="space-y-6">
       <SectionHeader
-        title="Weight Tracking"
-        description="Log daily weight and watch your trend over time."
+        title="Seguimiento de peso"
+        description="Registra tu peso diario y observa tu tendencia a lo largo del tiempo."
         action={<DateNavigator date={selectedDate} onChange={setSelectedDate} />}
       />
 

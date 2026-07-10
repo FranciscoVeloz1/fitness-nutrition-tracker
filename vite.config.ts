@@ -14,9 +14,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: 'Fitness & Nutrition Tracker',
+        name: 'Seguimiento de Fitness y Nutrición',
         short_name: 'FitTrack',
-        description: 'Track meals, diet adherence, workouts, and weight progress.',
+        description: 'Registra tus comidas, la adherencia a tu dieta, tus entrenamientos y tu progreso de peso.',
+        lang: 'es',
         theme_color: '#0b0b12',
         background_color: '#0b0b12',
         display: 'standalone',

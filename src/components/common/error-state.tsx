@@ -8,7 +8,7 @@ interface ErrorStateProps {
 }
 
 /** Inline error UI for failed queries — pairs with `ErrorBoundary`, which only catches render-time throws. */
-export function ErrorState({ title = 'Failed to load data', message, onRetry }: ErrorStateProps) {
+export function ErrorState({ title = 'Error al cargar los datos', message, onRetry }: ErrorStateProps) {
   return (
     <div className="border-destructive/30 bg-destructive/5 flex flex-col items-center gap-3 rounded-2xl border px-6 py-10 text-center">
       <div className="text-destructive bg-destructive/10 rounded-full p-3">
@@ -21,7 +21,7 @@ export function ErrorState({ title = 'Failed to load data', message, onRetry }: 
       {onRetry ? (
         <Button onClick={onRetry} variant="outline" size="sm">
           <RotateCcw className="size-4" />
-          Retry
+          Reintentar
         </Button>
       ) : null}
     </div>

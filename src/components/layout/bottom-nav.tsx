@@ -40,7 +40,7 @@ export const BottomNav = memo(function BottomNav() {
             )}
           >
             <MoreHorizontal className="size-5" />
-            More
+            Más
           </button>
         </div>
       </nav>
@@ -48,7 +48,7 @@ export const BottomNav = memo(function BottomNav() {
       <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
         <SheetContent side="bottom" className="rounded-t-3xl">
           <SheetHeader>
-            <SheetTitle>More</SheetTitle>
+            <SheetTitle>Más</SheetTitle>
           </SheetHeader>
           <div className="grid grid-cols-3 gap-3 px-4 pb-6">
             {MOBILE_MORE_NAV_ITEMS.map((item) => (

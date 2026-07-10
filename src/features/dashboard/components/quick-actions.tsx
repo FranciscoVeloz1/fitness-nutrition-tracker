@@ -3,10 +3,10 @@ import { Scale, Dumbbell, UtensilsCrossed, LineChart } from 'lucide-react'
 import { ROUTES } from '@/routes/paths'
 
 const ACTIONS = [
-  { to: ROUTES.meals, label: 'Log meals', icon: UtensilsCrossed, accent: 'bg-primary/10 text-primary' },
-  { to: ROUTES.workout, label: 'Log workout', icon: Dumbbell, accent: 'bg-accent/15 text-accent' },
-  { to: ROUTES.weight, label: 'Log weight', icon: Scale, accent: 'bg-warning/15 text-warning' },
-  { to: ROUTES.analytics, label: 'View analytics', icon: LineChart, accent: 'bg-success/15 text-success' },
+  { to: ROUTES.meals, label: 'Registrar comidas', icon: UtensilsCrossed, accent: 'bg-primary/10 text-primary' },
+  { to: ROUTES.workout, label: 'Registrar entrenamiento', icon: Dumbbell, accent: 'bg-accent/15 text-accent' },
+  { to: ROUTES.weight, label: 'Registrar peso', icon: Scale, accent: 'bg-warning/15 text-warning' },
+  { to: ROUTES.analytics, label: 'Ver estadísticas', icon: LineChart, accent: 'bg-success/15 text-success' },
 ]
 
 export function QuickActions() {

@@ -49,8 +49,8 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
         goalWeightKg: values.goalWeight !== undefined ? displayToKg(values.goalWeight, values.weightUnit) : undefined,
       },
       {
-        onSuccess: () => toast.success('Preferences saved'),
-        onError: (error) => toast.error('Could not save preferences', { description: error.message }),
+        onSuccess: () => toast.success('Preferencias guardadas'),
+        onError: (error) => toast.error('No se pudieron guardar las preferencias', { description: error.message }),
       },
     )
   }
@@ -58,7 +58,7 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4 sm:grid-cols-2">
       <div className="space-y-2">
-        <Label htmlFor="weightUnit">Weight unit</Label>
+        <Label htmlFor="weightUnit">Unidad de peso</Label>
         <Controller
           control={form.control}
           name="weightUnit"
@@ -68,8 +68,8 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="kg">Kilograms (kg)</SelectItem>
-                <SelectItem value="lb">Pounds (lb)</SelectItem>
+                <SelectItem value="kg">Kilogramos (kg)</SelectItem>
+                <SelectItem value="lb">Libras (lb)</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -77,12 +77,12 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="goalWeight">Goal weight ({form.watch('weightUnit')})</Label>
+        <Label htmlFor="goalWeight">Peso objetivo ({form.watch('weightUnit')})</Label>
         <Input id="goalWeight" type="number" step="0.1" inputMode="decimal" {...form.register('goalWeight')} />
       </div>
 
       <Button type="submit" disabled={updateSettings.isPending} className="sm:col-span-2 sm:w-fit">
-        {updateSettings.isPending ? 'Saving…' : 'Save preferences'}
+        {updateSettings.isPending ? 'Guardando…' : 'Guardar preferencias'}
       </Button>
     </form>
   )

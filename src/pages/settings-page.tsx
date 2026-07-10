@@ -12,7 +12,7 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-8">
-      <SectionHeader title="Settings" description="Configure your meal plan, goals, units, and app data." />
+      <SectionHeader title="Configuración" description="Configura tu plan de comidas, tus metas, las unidades y los datos de la app." />
 
       {isPending ? <CardSkeleton /> : null}
       {isError ? (
@@ -22,22 +22,22 @@ export default function SettingsPage() {
       {settings ? (
         <>
           <section className="space-y-3">
-            <SectionHeader title="Meal plan" description="Names and scheduled times for your 5 daily meals." />
+            <SectionHeader title="Plan de comidas" description="Nombres y horarios de tus 5 comidas diarias." />
             <MealTemplatesForm mealTemplates={settings.mealTemplates} />
           </section>
 
           <section className="space-y-3">
-            <SectionHeader title="Goals & units" />
+            <SectionHeader title="Metas y unidades" />
             <GoalAndUnitsForm settings={settings} />
           </section>
 
           <section className="space-y-3">
-            <SectionHeader title="Appearance" />
+            <SectionHeader title="Apariencia" />
             <ThemeSettingsCard />
           </section>
 
           <section className="space-y-3">
-            <SectionHeader title="Your data" description="Everything is stored on this device." />
+            <SectionHeader title="Tus datos" description="Todo se almacena en este dispositivo." />
             <DataManagementCard />
           </section>
         </>

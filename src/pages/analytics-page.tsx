@@ -24,7 +24,7 @@ export default function AnalyticsPage() {
   if (isPending) {
     return (
       <div className="space-y-6">
-        <SectionHeader title="Analytics" description="Trends across meals, workouts, and weight." />
+        <SectionHeader title="Estadísticas" description="Tendencias de comidas, entrenamientos y peso." />
         <div className="grid gap-4 sm:grid-cols-2">
           <CardSkeleton />
           <CardSkeleton />
@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
   if (isError || !records) {
     return (
       <div className="space-y-6">
-        <SectionHeader title="Analytics" description="Trends across meals, workouts, and weight." />
+        <SectionHeader title="Estadísticas" description="Tendencias de comidas, entrenamientos y peso." />
         <ErrorState message={error instanceof Error ? error.message : undefined} onRetry={() => void refetch()} />
       </div>
     )
@@ -51,33 +51,33 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <SectionHeader title="Analytics" description="Trends across meals, workouts, and weight — last 6 months." />
+      <SectionHeader title="Estadísticas" description="Tendencias de comidas, entrenamientos y peso — últimos 6 meses." />
 
       <StreakCards adherenceStreak={adherenceStreak} workoutStreak={workoutStreak} />
 
       <div className="space-y-3">
-        <SectionHeader title="Diet adherence" />
+        <SectionHeader title="Adherencia a la dieta" />
         <AdherenceTrendChart records={records} />
       </div>
 
       <div className="space-y-3">
-        <SectionHeader title="Consistency heatmap" description="Darker squares mean higher adherence that day." />
+        <SectionHeader title="Mapa de constancia" description="Los cuadros más oscuros indican mayor adherencia ese día." />
         <ContributionHeatmap records={records} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-3">
-          <SectionHeader title="Weight trend" />
+          <SectionHeader title="Tendencia de peso" />
           <WeightChart series={weightSeries} unit={settings?.weightUnit ?? 'kg'} goalWeightKg={settings?.goalWeightKg} />
         </div>
         <div className="space-y-3">
-          <SectionHeader title="Workout consistency" />
+          <SectionHeader title="Constancia de entrenamiento" />
           <WorkoutStats summary={computeWorkoutSummary(records)} />
         </div>
       </div>
 
       <div className="space-y-3">
-        <SectionHeader title="Monthly comparison" />
+        <SectionHeader title="Comparación mensual" />
         <MonthlyComparisonChart records={records} />
       </div>
     </div>

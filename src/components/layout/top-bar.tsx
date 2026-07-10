@@ -15,9 +15,9 @@ export function TopBar() {
       </div>
       <div className="flex items-center gap-2">
         {!isOnline ? (
-          <span className="text-muted-foreground flex items-center gap-1 text-xs" title="You're offline — everything still works">
+          <span className="text-muted-foreground flex items-center gap-1 text-xs" title="Estás sin conexión — todo sigue funcionando">
             <WifiOff className="size-3.5" />
-            Offline
+            Sin conexión
           </span>
         ) : null}
         <ThemeToggle />

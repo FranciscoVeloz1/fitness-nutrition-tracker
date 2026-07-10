@@ -12,34 +12,34 @@ export function WeightSummaryCards({ summary, unit }: { summary: WeightSummary; 
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
       <StatCard
-        label="Current"
+        label="Actual"
         value={summary.latestKg !== undefined ? `${kgToDisplay(summary.latestKg, unit)} ${label}` : '—'}
         icon={delta === undefined || delta === 0 ? Minus : delta > 0 ? ArrowUp : ArrowDown}
         trend={
           delta !== undefined
             ? {
                 direction: delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat',
-                label: delta === 0 ? 'No change' : `${deltaDisplay} ${label} vs. last entry`,
+                label: delta === 0 ? 'Sin cambio' : `${deltaDisplay} ${label} vs. el último registro`,
                 tone: delta === 0 ? 'neutral' : delta < 0 ? 'positive' : 'negative',
               }
             : undefined
         }
       />
       <StatCard
-        label="Highest"
+        label="Más alto"
         value={summary.highestKg !== undefined ? `${kgToDisplay(summary.highestKg, unit)} ${label}` : '—'}
         icon={TrendingUp}
         accentClassName="bg-destructive/10 text-destructive"
       />
       <StatCard
-        label="Lowest"
+        label="Más bajo"
         value={summary.lowestKg !== undefined ? `${kgToDisplay(summary.lowestKg, unit)} ${label}` : '—'}
         icon={TrendingDown}
         accentClassName="bg-success/10 text-success"
       />
       <StatCard
-        label="Goal progress"
-        value={summary.goalProgressPct !== undefined ? `${summary.goalProgressPct}%` : 'Set a goal'}
+        label="Progreso hacia la meta"
+        value={summary.goalProgressPct !== undefined ? `${summary.goalProgressPct}%` : 'Define una meta'}
         icon={Target}
         accentClassName="bg-accent/15 text-accent"
       />

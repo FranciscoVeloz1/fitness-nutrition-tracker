@@ -24,7 +24,7 @@ export default function MealsPage() {
       { date: selectedDate, slot, status: 'followed' },
       {
         onError: (mutationError) => {
-          toast.error('Could not update meal', { description: mutationError.message })
+          toast.error('No se pudo actualizar la comida', { description: mutationError.message })
         },
       },
     )
@@ -34,9 +34,9 @@ export default function MealsPage() {
     updateMeal.mutate(
       { date: selectedDate, slot, ...values },
       {
-        onSuccess: () => toast.success('Meal updated'),
+        onSuccess: () => toast.success('Comida actualizada'),
         onError: (mutationError) => {
-          toast.error('Could not update meal', { description: mutationError.message })
+          toast.error('No se pudo actualizar la comida', { description: mutationError.message })
         },
       },
     )
@@ -45,8 +45,8 @@ export default function MealsPage() {
   return (
     <div className="space-y-6">
       <SectionHeader
-        title="Daily Meals"
-        description="Log how closely you followed each planned meal."
+        title="Comidas del día"
+        description="Registra qué tan bien seguiste cada comida planificada."
         action={<DateNavigator date={selectedDate} onChange={setSelectedDate} />}
       />
 

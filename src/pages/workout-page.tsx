@@ -27,8 +27,8 @@ export default function WorkoutPage() {
     updateWorkout.mutate(
       { date: selectedDate, workout: values },
       {
-        onSuccess: () => toast.success('Workout saved'),
-        onError: (mutationError) => toast.error('Could not save workout', { description: mutationError.message }),
+        onSuccess: () => toast.success('Entrenamiento guardado'),
+        onError: (mutationError) => toast.error('No se pudo guardar el entrenamiento', { description: mutationError.message }),
       },
     )
   }
@@ -36,8 +36,8 @@ export default function WorkoutPage() {
   return (
     <div className="space-y-6">
       <SectionHeader
-        title="Workout"
-        description="Log today's training session and track consistency over time."
+        title="Entrenamiento"
+        description="Registra tu sesión de entrenamiento de hoy y sigue tu constancia a lo largo del tiempo."
         action={<DateNavigator date={selectedDate} onChange={setSelectedDate} />}
       />
 

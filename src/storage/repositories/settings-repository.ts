@@ -6,11 +6,11 @@ import type { MealTemplate } from '@/types/meal'
 export const SETTINGS_SCHEMA_VERSION = 1
 
 export const DEFAULT_MEAL_TEMPLATES: MealTemplate[] = [
-  { slot: 'breakfast', name: 'Breakfast', time: '07:30' },
-  { slot: 'morningSnack', name: 'Morning Snack', time: '10:00' },
-  { slot: 'lunch', name: 'Lunch', time: '13:00' },
-  { slot: 'afternoonSnack', name: 'Afternoon Snack', time: '16:30' },
-  { slot: 'dinner', name: 'Dinner', time: '20:00' },
+  { slot: 'breakfast', name: 'Desayuno', time: '07:30' },
+  { slot: 'morningSnack', name: 'Colación matutina', time: '10:00' },
+  { slot: 'lunch', name: 'Almuerzo', time: '13:00' },
+  { slot: 'afternoonSnack', name: 'Colación de la tarde', time: '16:30' },
+  { slot: 'dinner', name: 'Cena', time: '20:00' },
 ]
 
 export function createDefaultSettings(): AppSettings {

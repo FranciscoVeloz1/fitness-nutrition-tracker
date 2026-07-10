@@ -9,11 +9,11 @@ export default function NotFoundPage() {
     <div className="flex min-h-[60vh] items-center justify-center">
       <EmptyState
         icon={Compass}
-        title="Page not found"
-        description="The page you're looking for doesn't exist or has moved."
+        title="Página no encontrada"
+        description="La página que buscas no existe o fue movida."
         action={
           <Button asChild>
-            <Link to={ROUTES.dashboard}>Back to dashboard</Link>
+            <Link to={ROUTES.dashboard}>Volver al inicio</Link>
           </Button>
         }
       />

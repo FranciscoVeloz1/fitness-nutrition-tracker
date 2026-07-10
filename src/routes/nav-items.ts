@@ -18,13 +18,13 @@ export interface NavItem {
 
 /** Full navigation, used verbatim by the desktop sidebar. */
 export const NAV_ITEMS: NavItem[] = [
-  { to: ROUTES.dashboard, label: 'Dashboard', icon: LayoutDashboard },
-  { to: ROUTES.meals, label: 'Meals', icon: UtensilsCrossed },
-  { to: ROUTES.workout, label: 'Workout', icon: Dumbbell },
-  { to: ROUTES.weight, label: 'Weight', icon: Scale },
-  { to: ROUTES.history, label: 'History', icon: CalendarDays },
-  { to: ROUTES.analytics, label: 'Analytics', icon: LineChart },
-  { to: ROUTES.settings, label: 'Settings', icon: Settings },
+  { to: ROUTES.dashboard, label: 'Inicio', icon: LayoutDashboard },
+  { to: ROUTES.meals, label: 'Comidas', icon: UtensilsCrossed },
+  { to: ROUTES.workout, label: 'Entrenamiento', icon: Dumbbell },
+  { to: ROUTES.weight, label: 'Peso', icon: Scale },
+  { to: ROUTES.history, label: 'Historial', icon: CalendarDays },
+  { to: ROUTES.analytics, label: 'Estadísticas', icon: LineChart },
+  { to: ROUTES.settings, label: 'Configuración', icon: Settings },
 ]
 
 /** The four most-used destinations, pinned to the mobile bottom nav (a 5th slot opens "More"). */

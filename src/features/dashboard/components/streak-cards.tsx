@@ -25,10 +25,10 @@ function StreakCard({
       </span>
       <div>
         <p className="text-2xl font-semibold tabular-nums">
-          {streak.current} <span className="text-muted-foreground text-sm font-normal">days</span>
+          {streak.current} <span className="text-muted-foreground text-sm font-normal">días</span>
         </p>
         <p className="text-muted-foreground text-xs">
-          {label} · longest {streak.longest}d
+          {label} · más larga: {streak.longest}d
         </p>
       </div>
     </motion.div>
@@ -44,8 +44,8 @@ export function StreakCards({
 }) {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      <StreakCard icon={Flame} label="Adherence streak" streak={adherenceStreak} accent="bg-warning/15 text-warning" />
-      <StreakCard icon={Dumbbell} label="Workout streak" streak={workoutStreak} accent="bg-accent/15 text-accent" />
+      <StreakCard icon={Flame} label="Racha de adherencia" streak={adherenceStreak} accent="bg-warning/15 text-warning" />
+      <StreakCard icon={Dumbbell} label="Racha de entrenamientos" streak={workoutStreak} accent="bg-accent/15 text-accent" />
     </div>
   )
 }

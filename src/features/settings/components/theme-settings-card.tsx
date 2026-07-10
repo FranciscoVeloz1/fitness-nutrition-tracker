@@ -3,9 +3,9 @@ import { Moon, Sun, Monitor } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const THEME_OPTIONS = [
-  { value: 'dark', label: 'Dark', icon: Moon },
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'system', label: 'System', icon: Monitor },
+  { value: 'dark', label: 'Oscuro', icon: Moon },
+  { value: 'light', label: 'Claro', icon: Sun },
+  { value: 'system', label: 'Sistema', icon: Monitor },
 ] as const
 
 export function ThemeSettingsCard() {

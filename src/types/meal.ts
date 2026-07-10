@@ -14,6 +14,15 @@ export const MEAL_SLOTS = [
 
 export type MealSlot = (typeof MEAL_SLOTS)[number]
 
+/** Spanish display labels for each fixed meal slot, used as form field labels. */
+export const MEAL_SLOT_LABELS: Record<MealSlot, string> = {
+  breakfast: 'Desayuno',
+  morningSnack: 'Colación matutina',
+  lunch: 'Almuerzo',
+  afternoonSnack: 'Colación de la tarde',
+  dinner: 'Cena',
+}
+
 /**
  * Adherence outcome for a single planned meal on a given day.
  * - `pending`: not logged yet (default state for a future/untouched meal)

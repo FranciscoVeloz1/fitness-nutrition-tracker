@@ -16,7 +16,7 @@ export const DateNavigator = memo(function DateNavigator({ date, onChange }: Dat
 
   return (
     <div className="flex items-center gap-1.5">
-      <Button variant="outline" size="icon" onClick={() => onChange(shiftDateKey(date, -1))} aria-label="Previous day">
+      <Button variant="outline" size="icon" onClick={() => onChange(shiftDateKey(date, -1))} aria-label="Día anterior">
         <ChevronLeft className="size-4" />
       </Button>
 
@@ -24,7 +24,7 @@ export const DateNavigator = memo(function DateNavigator({ date, onChange }: Dat
         <PopoverTrigger asChild>
           <Button variant="outline" className="min-w-40 justify-start gap-2 font-medium">
             <CalendarIcon className="size-4" />
-            {isToday ? 'Today' : formatDisplayDate(date)}
+            {isToday ? 'Hoy' : formatDisplayDate(date)}
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto p-0">
@@ -46,7 +46,7 @@ export const DateNavigator = memo(function DateNavigator({ date, onChange }: Dat
         size="icon"
         onClick={() => onChange(shiftDateKey(date, 1))}
         disabled={isToday}
-        aria-label="Next day"
+        aria-label="Día siguiente"
       >
         <ChevronRight className="size-4" />
       </Button>

@@ -17,8 +17,8 @@ export function WeightChart({ series, unit, goalWeightKg }: WeightChartProps) {
     return (
       <EmptyState
         icon={Scale}
-        title="No weight entries yet"
-        description="Log your weight to see your trend line here."
+        title="Aún no hay registros de peso"
+        description="Registra tu peso para ver aquí tu línea de tendencia."
       />
     )
   }
@@ -51,7 +51,7 @@ export function WeightChart({ series, unit, goalWeightKg }: WeightChartProps) {
               y={kgToDisplay(goalWeightKg, unit)}
               stroke="var(--color-success)"
               strokeDasharray="4 4"
-              label={{ value: 'Goal', position: 'insideTopRight', fill: 'var(--color-success)', fontSize: 11 }}
+              label={{ value: 'Meta', position: 'insideTopRight', fill: 'var(--color-success)', fontSize: 11 }}
             />
           ) : null}
           <Line
@@ -60,7 +60,7 @@ export function WeightChart({ series, unit, goalWeightKg }: WeightChartProps) {
             stroke="var(--color-chart-1)"
             strokeWidth={2}
             dot={false}
-            name="Weight"
+            name="Peso"
           />
           <Line
             type="monotone"
@@ -69,7 +69,7 @@ export function WeightChart({ series, unit, goalWeightKg }: WeightChartProps) {
             strokeWidth={2}
             strokeDasharray="5 3"
             dot={false}
-            name="7-day avg"
+            name="Prom. 7 días"
           />
         </LineChart>
       </ResponsiveContainer>

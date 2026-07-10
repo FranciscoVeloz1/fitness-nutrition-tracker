@@ -29,7 +29,7 @@ export class IndexedDbAdapter implements StorageAdapter {
       const db = await this.dbPromise
       return (await db.get(STORE_NAME, key)) as T | undefined
     } catch (error) {
-      throw toStorageError('READ_FAILED', `Failed to read "${key}" from IndexedDB`, error)
+      throw toStorageError('READ_FAILED', `Error al leer "${key}" de IndexedDB`, error)
     }
   }
 
@@ -38,7 +38,7 @@ export class IndexedDbAdapter implements StorageAdapter {
       const db = await this.dbPromise
       await db.put(STORE_NAME, value, key)
     } catch (error) {
-      throw toStorageError('WRITE_FAILED', `Failed to write "${key}" to IndexedDB`, error)
+      throw toStorageError('WRITE_FAILED', `Error al escribir "${key}" en IndexedDB`, error)
     }
   }
 
@@ -47,7 +47,7 @@ export class IndexedDbAdapter implements StorageAdapter {
       const db = await this.dbPromise
       await db.delete(STORE_NAME, key)
     } catch (error) {
-      throw toStorageError('DELETE_FAILED', `Failed to delete "${key}" from IndexedDB`, error)
+      throw toStorageError('DELETE_FAILED', `Error al eliminar "${key}" de IndexedDB`, error)
     }
   }
 
@@ -57,7 +57,7 @@ export class IndexedDbAdapter implements StorageAdapter {
       const allKeys = (await db.getAllKeys(STORE_NAME)) as string[]
       return prefix ? allKeys.filter((key) => key.startsWith(prefix)) : allKeys
     } catch (error) {
-      throw toStorageError('READ_FAILED', 'Failed to list IndexedDB keys', error)
+      throw toStorageError('READ_FAILED', 'Error al listar las claves de IndexedDB', error)
     }
   }
 
@@ -66,7 +66,7 @@ export class IndexedDbAdapter implements StorageAdapter {
       const db = await this.dbPromise
       await db.clear(STORE_NAME)
     } catch (error) {
-      throw toStorageError('DELETE_FAILED', 'Failed to clear IndexedDB store', error)
+      throw toStorageError('DELETE_FAILED', 'Error al vaciar el almacén de IndexedDB', error)
     }
   }
 }

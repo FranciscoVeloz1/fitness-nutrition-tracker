@@ -4,12 +4,12 @@ import type { DateKey } from '@/types/common'
 function getGreeting(): string {
   const hour = new Date().getHours()
   if (hour < 12) {
-    return 'Good morning'
+    return 'Buenos días'
   }
   if (hour < 18) {
-    return 'Good afternoon'
+    return 'Buenas tardes'
   }
-  return 'Good evening'
+  return 'Buenas noches'
 }
 
 export function GreetingHeader({ today }: { today: DateKey }) {

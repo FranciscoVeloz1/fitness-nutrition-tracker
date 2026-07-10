@@ -14,7 +14,7 @@ export const Sidebar = memo(function Sidebar() {
         </span>
         <div>
           <p className="text-sm font-semibold leading-tight">FitTrack</p>
-          <p className="text-muted-foreground text-xs leading-tight">Meals · Workouts · Weight</p>
+          <p className="text-muted-foreground text-xs leading-tight">Comidas · Entrenamientos · Peso</p>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export const Sidebar = memo(function Sidebar() {
         ))}
       </nav>
 
-      <p className="text-muted-foreground px-2 text-xs">All data stays on this device.</p>
+      <p className="text-muted-foreground px-2 text-xs">Todos tus datos permanecen en este dispositivo.</p>
     </aside>
   )
 })

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 
 interface ErrorBoundaryProps {
   children: ReactNode
-  /** Label shown in the fallback UI, e.g. "the dashboard". Defaults to "this page". */
+  /** Label shown in the fallback UI, e.g. "el panel". Defaults to "esta página". */
   scopeLabel?: string
 }
 
@@ -41,14 +41,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <AlertTriangle className="size-6" />
           </div>
           <div className="space-y-1">
-            <p className="text-lg font-semibold">Something went wrong in {this.props.scopeLabel ?? 'this page'}</p>
+            <p className="text-lg font-semibold">Algo salió mal en {this.props.scopeLabel ?? 'esta página'}</p>
             <p className="text-muted-foreground max-w-sm text-sm">
-              {this.state.error.message || 'An unexpected error occurred. You can try again below.'}
+              {this.state.error.message || 'Ocurrió un error inesperado. Puedes intentarlo de nuevo abajo.'}
             </p>
           </div>
           <Button onClick={this.handleReset} variant="outline">
             <RotateCcw className="size-4" />
-            Try again
+            Intentar de nuevo
           </Button>
         </div>
       )

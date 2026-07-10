@@ -16,7 +16,7 @@ export class LocalStorageAdapter implements StorageAdapter {
       const raw = localStorage.getItem(NAMESPACE + key)
       return raw === null ? undefined : (JSON.parse(raw) as T)
     } catch (error) {
-      throw toStorageError('READ_FAILED', `Failed to read "${key}" from localStorage`, error)
+      throw toStorageError('READ_FAILED', `Error al leer "${key}" de localStorage`, error)
     }
   }
 
@@ -24,7 +24,7 @@ export class LocalStorageAdapter implements StorageAdapter {
     try {
       localStorage.setItem(NAMESPACE + key, JSON.stringify(value))
     } catch (error) {
-      throw toStorageError('WRITE_FAILED', `Failed to write "${key}" to localStorage`, error)
+      throw toStorageError('WRITE_FAILED', `Error al escribir "${key}" en localStorage`, error)
     }
   }
 
@@ -32,7 +32,7 @@ export class LocalStorageAdapter implements StorageAdapter {
     try {
       localStorage.removeItem(NAMESPACE + key)
     } catch (error) {
-      throw toStorageError('DELETE_FAILED', `Failed to delete "${key}" from localStorage`, error)
+      throw toStorageError('DELETE_FAILED', `Error al eliminar "${key}" de localStorage`, error)
     }
   }
 
@@ -51,7 +51,7 @@ export class LocalStorageAdapter implements StorageAdapter {
       }
       return matched
     } catch (error) {
-      throw toStorageError('READ_FAILED', 'Failed to list localStorage keys', error)
+      throw toStorageError('READ_FAILED', 'Error al listar las claves de localStorage', error)
     }
   }
 
@@ -62,7 +62,7 @@ export class LocalStorageAdapter implements StorageAdapter {
         localStorage.removeItem(NAMESPACE + key)
       }
     } catch (error) {
-      throw toStorageError('DELETE_FAILED', 'Failed to clear localStorage', error)
+      throw toStorageError('DELETE_FAILED', 'Error al vaciar localStorage', error)
     }
   }
 }

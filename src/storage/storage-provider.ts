@@ -14,7 +14,7 @@ async function resolveAdapter(): Promise<StorageAdapter> {
   }
   throw new StorageError(
     'UNAVAILABLE',
-    'No storage backend is available in this environment (IndexedDB and localStorage both failed).',
+    'No hay un sistema de almacenamiento disponible en este entorno (IndexedDB y localStorage fallaron).',
   )
 }
 

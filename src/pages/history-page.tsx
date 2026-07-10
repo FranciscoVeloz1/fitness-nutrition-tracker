@@ -31,7 +31,7 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-6">
-      <SectionHeader title="History" description="Browse any day to see what you logged." />
+      <SectionHeader title="Historial" description="Explora cualquier día para ver lo que registraste." />
 
       {isPending ? <CardSkeleton /> : null}
       {isError ? (

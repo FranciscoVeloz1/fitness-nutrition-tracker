@@ -42,12 +42,12 @@ export function parseBackupFile(raw: string): BackupFile {
   try {
     json = JSON.parse(raw)
   } catch {
-    throw new BackupValidationError('The selected file is not valid JSON.')
+    throw new BackupValidationError('El archivo seleccionado no es un JSON válido.')
   }
 
   const result = backupFileSchema.safeParse(json)
   if (!result.success) {
-    throw new BackupValidationError('The file does not match the expected FitTrack backup format.')
+    throw new BackupValidationError('El archivo no coincide con el formato de respaldo esperado de FitTrack.')
   }
   return result.data
 }
