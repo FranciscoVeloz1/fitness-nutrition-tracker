@@ -1,0 +1,5 @@
+export type { StorageAdapter } from '@/storage/storage-adapter'
+export { StorageError, type StorageErrorCode } from '@/storage/storage-error'
+export { getStorageAdapter } from '@/storage/storage-provider'
+export { settingsRepository, createDefaultSettings } from '@/storage/repositories/settings-repository'
+export { dailyRecordsRepository } from '@/storage/repositories/daily-records-repository'

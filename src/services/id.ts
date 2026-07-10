@@ -1,0 +1,7 @@
+/** Generates a RFC4122 v4 UUID, falling back for environments without `crypto.randomUUID`. */
+export function generateId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+}
