@@ -5,8 +5,8 @@ import { ApiError } from './http'
 import type { AuthorizedRequest } from './fitness-session'
 
 type SettingsEnvelope = { settings: AppSettings }
-type DailyRecordEnvelope = { record: DailyRecord }
-type DailyRecordsEnvelope = { records: DailyRecord[] }
+type DailyRecordEnvelope = { dailyRecord: DailyRecord }
+type DailyRecordsEnvelope = { dailyRecords: DailyRecord[] }
 
 export async function getSettings(userId: string, authorizedRequest: AuthorizedRequest): Promise<AppSettings> {
   const result = await authorizedRequest<SettingsEnvelope>(`/api/v1/users/${userId}/fitness/settings`)
@@ -35,7 +35,7 @@ export async function listDailyRecords(
   const result = await authorizedRequest<DailyRecordsEnvelope>(
     `/api/v1/users/${userId}/fitness/daily-records?${params.toString()}`
   )
-  return result.records
+  return result.dailyRecords ?? []
 }
 
 export async function getDailyRecord(
@@ -47,7 +47,7 @@ export async function getDailyRecord(
     const result = await authorizedRequest<DailyRecordEnvelope>(
       `/api/v1/users/${userId}/fitness/daily-records/${date}`
     )
-    return result.record
+    return result.dailyRecord
   } catch (caught) {
     if (caught instanceof ApiError && caught.status === 404) {
       return undefined
@@ -59,17 +59,23 @@ export async function getDailyRecord(
 export async function putDailyRecord(
   userId: string,
   date: DateKey,
-  body: Omit<DailyRecord, 'date' | 'createdAt' | 'updatedAt'> & Partial<Pick<DailyRecord, 'createdAt' | 'updatedAt'>>,
+  body: Omit<DailyRecord, 'date' | 'createdAt' | 'updatedAt'> &
+    Partial<Pick<DailyRecord, 'createdAt' | 'updatedAt'>>,
   authorizedRequest: AuthorizedRequest
 ): Promise<DailyRecord> {
   const result = await authorizedRequest<DailyRecordEnvelope>(
     `/api/v1/users/${userId}/fitness/daily-records/${date}`,
     {
       method: 'PUT',
-      body,
+      body: {
+        meals: body.meals,
+        workout: body.workout,
+        weight: body.weight,
+        notes: body.notes,
+      },
     }
   )
-  return result.record
+  return result.dailyRecord
 }
 
 export async function deleteDailyRecord(
