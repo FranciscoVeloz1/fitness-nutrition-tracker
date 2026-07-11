@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
 import { queryClient } from '@/lib/query-client'
+import { AuthProvider } from '@/auth/AuthProvider'
 
 interface AppProvidersProps {
   children: ReactNode
@@ -15,10 +16,12 @@ export function AppProviders({ children }: AppProvidersProps) {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem storageKey="fittrack-theme">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter basename={import.meta.env.BASE_URL}>
-          <TooltipProvider delayDuration={200}>
-            {children}
-            <Toaster position="top-center" richColors closeButton />
-          </TooltipProvider>
+          <AuthProvider>
+            <TooltipProvider delayDuration={200}>
+              {children}
+              <Toaster position="top-center" richColors closeButton />
+            </TooltipProvider>
+          </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>

@@ -119,10 +119,23 @@ This repo is already wired for zero-touch deployment:
 - `.github/workflows/deploy.yml` runs on every push to `main`: install →
   lint → typecheck → build → upload the `dist/` folder as a Pages artifact →
   deploy.
+- Production API URL is injected at build time via the `VITE_API_BASE_URL`
+  repository secret (not from `.env`). Locally, copy `.env.example` to `.env`
+  and point at `http://localhost:3000`.
 
 If you fork or rename this repo, update `base` in `vite.config.ts` (and the
 `start_url`/`scope` in the PWA manifest inside the same file) to match the new
 repo name.
+
+### API URL for GitHub Pages
+
+```bash
+# One-time: set the production personal-api origin (no trailing slash)
+gh secret set VITE_API_BASE_URL --body "https://YOUR-API.up.railway.app"
+```
+
+On `personal-api`, include the Pages origin in `CORS_ORIGINS`, e.g.
+`https://franciscoveloz1.github.io`.
 
 ### One-time repository setup (already done for this repo, kept here for reference)
 
