@@ -1,7 +1,7 @@
-import { getStorageAdapter } from '@/storage/storage-provider'
-import { STORAGE_KEYS } from '@/storage/keys'
 import type { AppSettings } from '@/types/settings'
 import type { MealTemplate } from '@/types/meal'
+import * as fitnessApi from '@/api/fitness'
+import { requireFitnessApiSession } from '@/api/fitness-session'
 
 export const SETTINGS_SCHEMA_VERSION = 1
 
@@ -22,27 +22,15 @@ export function createDefaultSettings(): AppSettings {
   }
 }
 
-/**
- * Repository for the single app-wide settings document. Swappable for a
- * `/settings` API resource later: the interface stays `get`/`save` and only
- * the implementation body changes.
- */
 export class SettingsRepository {
   async get(): Promise<AppSettings> {
-    const adapter = await getStorageAdapter()
-    const stored = await adapter.get<AppSettings>(STORAGE_KEYS.settings)
-    if (!stored) {
-      const defaults = createDefaultSettings()
-      await adapter.set(STORAGE_KEYS.settings, defaults)
-      return defaults
-    }
-    return stored
+    const { userId, request } = requireFitnessApiSession()
+    return fitnessApi.getSettings(userId, request)
   }
 
   async save(settings: AppSettings): Promise<AppSettings> {
-    const adapter = await getStorageAdapter()
-    await adapter.set(STORAGE_KEYS.settings, settings)
-    return settings
+    const { userId, request } = requireFitnessApiSession()
+    return fitnessApi.putSettings(userId, settings, request)
   }
 
   async update(patch: Partial<AppSettings>): Promise<AppSettings> {

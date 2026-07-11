@@ -1,54 +1,37 @@
-import { getStorageAdapter } from '@/storage/storage-provider'
-import { STORAGE_KEYS } from '@/storage/keys'
 import type { DailyRecord } from '@/types/daily-record'
 import type { DateKey } from '@/types/common'
+import * as fitnessApi from '@/api/fitness'
+import { requireFitnessApiSession } from '@/api/fitness-session'
 
-/**
- * Repository for per-day records. Keys are lexicographically sortable
- * (`daily:2026-07-10`), so range queries are a simple string comparison
- * instead of a secondary index — more than enough for a single-user local
- * dataset spanning years of daily entries.
- */
 export class DailyRecordsRepository {
   async get(date: DateKey): Promise<DailyRecord | undefined> {
-    const adapter = await getStorageAdapter()
-    return adapter.get<DailyRecord>(STORAGE_KEYS.dailyRecord(date))
+    const { userId, request } = requireFitnessApiSession()
+    return fitnessApi.getDailyRecord(userId, date, request)
   }
 
   async save(record: DailyRecord): Promise<DailyRecord> {
-    const adapter = await getStorageAdapter()
-    await adapter.set(STORAGE_KEYS.dailyRecord(record.date), record)
-    return record
+    const { userId, request } = requireFitnessApiSession()
+    const { date, ...body } = record
+    return fitnessApi.putDailyRecord(userId, date, body, request)
   }
 
   async delete(date: DateKey): Promise<void> {
-    const adapter = await getStorageAdapter()
-    await adapter.delete(STORAGE_KEYS.dailyRecord(date))
+    const { userId, request } = requireFitnessApiSession()
+    return fitnessApi.deleteDailyRecord(userId, date, request)
   }
 
-  /** Inclusive range lookup, sorted ascending by date. */
   async listRange(startDate: DateKey, endDate: DateKey): Promise<DailyRecord[]> {
-    const adapter = await getStorageAdapter()
-    const allKeys = await adapter.keys(STORAGE_KEYS.dailyRecordPrefix)
-    const startKey = STORAGE_KEYS.dailyRecord(startDate)
-    const endKey = STORAGE_KEYS.dailyRecord(endDate)
-    const keysInRange = allKeys.filter((key) => key >= startKey && key <= endKey).sort()
-
-    const records = await Promise.all(keysInRange.map((key) => adapter.get<DailyRecord>(key)))
-    return records.filter((record): record is DailyRecord => record !== undefined)
+    const { userId, request } = requireFitnessApiSession()
+    return fitnessApi.listDailyRecords(userId, startDate, endDate, request)
   }
 
   async listAll(): Promise<DailyRecord[]> {
-    const adapter = await getStorageAdapter()
-    const allKeys = (await adapter.keys(STORAGE_KEYS.dailyRecordPrefix)).sort()
-    const records = await Promise.all(allKeys.map((key) => adapter.get<DailyRecord>(key)))
-    return records.filter((record): record is DailyRecord => record !== undefined)
+    return this.listRange('2000-01-01', '2100-12-31')
   }
 
   async clearAll(): Promise<void> {
-    const adapter = await getStorageAdapter()
-    const allKeys = await adapter.keys(STORAGE_KEYS.dailyRecordPrefix)
-    await Promise.all(allKeys.map((key) => adapter.delete(key)))
+    const records = await this.listAll()
+    await Promise.all(records.map((record) => this.delete(record.date)))
   }
 }
 
