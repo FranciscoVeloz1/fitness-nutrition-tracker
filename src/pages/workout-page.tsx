@@ -63,9 +63,7 @@ export default function WorkoutPage() {
     )
   }
 
-  const completedToday =
-    (Boolean(recordQuery.data?.workout?.completed) && isToday) ||
-    currentQuery.data?.progress.lastCompletedDate === today
+  const completedToday = Boolean(recordQuery.data?.workout?.completed) && isToday
 
   return (
     <div className="space-y-6">

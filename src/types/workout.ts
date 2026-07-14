@@ -36,7 +36,6 @@ export interface WorkoutEntry {
   durationMinutes: number
   intensity: WorkoutIntensity
   notes?: string
-  programDayId?: string
   dayName?: string
   exercises?: WorkoutExerciseSnapshot[]
 }

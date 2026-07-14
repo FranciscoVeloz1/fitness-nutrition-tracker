@@ -28,7 +28,6 @@ const workoutEntrySchema = z.object({
   durationMinutes: z.number().nonnegative(),
   intensity: z.enum(WORKOUT_INTENSITIES),
   notes: z.string().optional(),
-  programDayId: z.string().uuid().optional(),
   dayName: z.string().optional(),
   exercises: z
     .array(
