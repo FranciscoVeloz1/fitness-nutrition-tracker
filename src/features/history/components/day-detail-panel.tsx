@@ -69,8 +69,23 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
             <Dumbbell className="size-3.5" /> Entrenamiento
           </p>
           <p className="mt-1 text-sm font-medium">
-            {record.workout ? (record.workout.completed ? record.workout.type : 'Día de descanso') : 'Sin registrar'}
+            {record.workout
+              ? record.workout.completed
+                ? (record.workout.dayName ?? record.workout.type)
+                : 'Día de descanso'
+              : 'Sin registrar'}
           </p>
+          {record.workout?.exercises && record.workout.exercises.length > 0 ? (
+            <ul className="text-muted-foreground mt-2 space-y-1 text-xs">
+              {record.workout.exercises.map((exercise, index) => {
+                return (
+                  <li key={`${exercise.name}-${index}`}>
+                    {exercise.name} — {exercise.sets} × {exercise.reps}
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
         </div>
         <div className="rounded-xl border p-3">
           <p className="text-muted-foreground flex items-center gap-1.5 text-xs">

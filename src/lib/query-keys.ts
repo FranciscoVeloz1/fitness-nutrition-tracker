@@ -8,7 +8,10 @@ import type { DateKey } from '@/types/common'
 export const queryKeys = {
   settings: () => ['settings'] as const,
   dailyRecord: (date: DateKey) => ['dailyRecord', date] as const,
-  dailyRecordsRange: (start: DateKey, end: DateKey) => ['dailyRecords', 'range', start, end] as const,
+  dailyRecordsRange: (start: DateKey, end: DateKey) =>
+    ['dailyRecords', 'range', start, end] as const,
   dailyRecordsAll: () => ['dailyRecords', 'all'] as const,
   dashboardSummary: () => ['dashboardSummary'] as const,
+  workoutProgram: () => ['workoutProgram'] as const,
+  currentWorkoutSession: () => ['currentWorkoutSession'] as const,
 }

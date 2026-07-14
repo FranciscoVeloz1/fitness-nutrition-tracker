@@ -8,7 +8,9 @@ import { MealTemplatesForm } from '@/features/settings/components/meal-templates
 import { GoalAndUnitsForm } from '@/features/settings/components/goal-and-units-form'
 import { ThemeSettingsCard } from '@/features/settings/components/theme-settings-card'
 import { DataManagementCard } from '@/features/settings/components/data-management-card'
+import { WorkoutProgramForm } from '@/features/settings/components/workout-program-form'
 import { useSettings } from '@/hooks/use-settings'
+import { useWorkoutProgram } from '@/hooks/use-workout-program'
 import { useAuth } from '@/auth/AuthProvider'
 import { queryClient } from '@/lib/query-client'
 import { Button } from '@/components/ui/button'
@@ -16,6 +18,13 @@ import { ROUTES } from '@/routes/paths'
 
 export default function SettingsPage() {
   const { data: settings, isPending, isError, error, refetch } = useSettings()
+  const {
+    data: program,
+    isPending: isProgramPending,
+    isError: isProgramError,
+    error: programError,
+    refetch: refetchProgram,
+  } = useWorkoutProgram()
   const { logout } = useAuth()
   const navigate = useNavigate()
 
@@ -43,6 +52,23 @@ export default function SettingsPage() {
           <section className="space-y-3">
             <SectionHeader title="Plan de comidas" description="Nombres y horarios de tus 5 comidas diarias." />
             <MealTemplatesForm mealTemplates={settings.mealTemplates} />
+          </section>
+
+          <section className="space-y-3">
+            <SectionHeader
+              title="Programa de entrenamiento"
+              description="Define los días y ejercicios. El orden determina la siguiente rutina al completar un entrenamiento."
+            />
+            {isProgramPending ? <CardSkeleton /> : null}
+            {isProgramError ? (
+              <ErrorState
+                message={programError instanceof Error ? programError.message : undefined}
+                onRetry={() => {
+                  void refetchProgram()
+                }}
+              />
+            ) : null}
+            {program ? <WorkoutProgramForm program={program} /> : null}
           </section>
 
           <section className="space-y-3">
