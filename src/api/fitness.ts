@@ -1,12 +1,21 @@
 import type { AppSettings } from '@/types/settings'
 import type { DailyRecord } from '@/types/daily-record'
 import type { DateKey } from '@/types/common'
+import type {
+  CompleteWorkoutSessionInput,
+  CompleteWorkoutSessionResult,
+  CurrentWorkoutSession,
+  PutWorkoutProgramInput,
+  WorkoutProgram,
+} from '@/types/workout-program'
 import { ApiError } from './http'
 import type { AuthorizedRequest } from './fitness-session'
 
 type SettingsEnvelope = { settings: AppSettings }
 type DailyRecordEnvelope = { dailyRecord: DailyRecord }
 type DailyRecordsEnvelope = { dailyRecords: DailyRecord[] }
+type WorkoutProgramEnvelope = { program: WorkoutProgram }
+type CurrentWorkoutEnvelope = { current: CurrentWorkoutSession }
 
 export async function getSettings(userId: string, authorizedRequest: AuthorizedRequest): Promise<AppSettings> {
   const result = await authorizedRequest<SettingsEnvelope>(`/api/v1/users/${userId}/fitness/settings`)
@@ -86,4 +95,47 @@ export async function deleteDailyRecord(
   await authorizedRequest<void>(`/api/v1/users/${userId}/fitness/daily-records/${date}`, {
     method: 'DELETE',
   })
+}
+
+export async function getWorkoutProgram(
+  userId: string,
+  authorizedRequest: AuthorizedRequest,
+): Promise<WorkoutProgram> {
+  const result = await authorizedRequest<WorkoutProgramEnvelope>(
+    `/api/v1/users/${userId}/fitness/workout-program`,
+  )
+  return result.program
+}
+
+export async function putWorkoutProgram(
+  userId: string,
+  body: PutWorkoutProgramInput,
+  authorizedRequest: AuthorizedRequest,
+): Promise<WorkoutProgram> {
+  const result = await authorizedRequest<WorkoutProgramEnvelope>(
+    `/api/v1/users/${userId}/fitness/workout-program`,
+    { method: 'PUT', body },
+  )
+  return result.program
+}
+
+export async function getCurrentWorkoutSession(
+  userId: string,
+  authorizedRequest: AuthorizedRequest,
+): Promise<CurrentWorkoutSession> {
+  const result = await authorizedRequest<CurrentWorkoutEnvelope>(
+    `/api/v1/users/${userId}/fitness/workout-program/current`,
+  )
+  return result.current
+}
+
+export async function completeWorkoutSession(
+  userId: string,
+  body: CompleteWorkoutSessionInput,
+  authorizedRequest: AuthorizedRequest,
+): Promise<CompleteWorkoutSessionResult> {
+  return authorizedRequest<CompleteWorkoutSessionResult>(
+    `/api/v1/users/${userId}/fitness/workout-program/complete`,
+    { method: 'POST', body },
+  )
 }

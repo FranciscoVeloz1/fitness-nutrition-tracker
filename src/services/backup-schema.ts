@@ -28,6 +28,18 @@ const workoutEntrySchema = z.object({
   durationMinutes: z.number().nonnegative(),
   intensity: z.enum(WORKOUT_INTENSITIES),
   notes: z.string().optional(),
+  programDayId: z.string().uuid().optional(),
+  dayName: z.string().optional(),
+  exercises: z
+    .array(
+      z.object({
+        name: z.string(),
+        sets: z.number().int().nonnegative(),
+        reps: z.string(),
+        notes: z.string().optional(),
+      }),
+    )
+    .optional(),
 })
 
 const weightEntrySchema = z.object({

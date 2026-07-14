@@ -20,6 +20,13 @@ export const INTENSITY_LABELS: Record<WorkoutIntensity, string> = {
   high: 'Alta',
 }
 
+export interface WorkoutExerciseSnapshot {
+  name: string
+  sets: number
+  reps: string
+  notes?: string
+}
+
 export interface WorkoutEntry {
   completed: boolean
   category: WorkoutCategory
@@ -29,4 +36,7 @@ export interface WorkoutEntry {
   durationMinutes: number
   intensity: WorkoutIntensity
   notes?: string
+  programDayId?: string
+  dayName?: string
+  exercises?: WorkoutExerciseSnapshot[]
 }
