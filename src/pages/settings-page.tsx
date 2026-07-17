@@ -4,6 +4,7 @@ import { LogOut } from 'lucide-react'
 import { SectionHeader } from '@/components/common/section-header'
 import { CardSkeleton } from '@/components/common/loading-skeletons'
 import { ErrorState } from '@/components/common/error-state'
+import { ReadOnlyNotice } from '@/components/common/read-only-notice'
 import { MealTemplatesForm } from '@/features/settings/components/meal-templates-form'
 import { GoalAndUnitsForm } from '@/features/settings/components/goal-and-units-form'
 import { ThemeSettingsCard } from '@/features/settings/components/theme-settings-card'
@@ -25,7 +26,7 @@ export default function SettingsPage() {
     error: programError,
     refetch: refetchProgram,
   } = useWorkoutProgram()
-  const { logout } = useAuth()
+  const { logout, canMutateFitness } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = async (): Promise<void> => {
@@ -42,6 +43,8 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <SectionHeader title="Configuración" description="Configura tu plan de comidas, tus metas, las unidades y los datos de la app." />
 
+      {!canMutateFitness ? <ReadOnlyNotice /> : null}
+
       {isPending ? <CardSkeleton /> : null}
       {isError ? (
         <ErrorState message={error instanceof Error ? error.message : undefined} onRetry={() => void refetch()} />
@@ -51,7 +54,7 @@ export default function SettingsPage() {
         <>
           <section className="space-y-3">
             <SectionHeader title="Plan de comidas" description="Nombres y horarios de tus 5 comidas diarias." />
-            <MealTemplatesForm mealTemplates={settings.mealTemplates} />
+            <MealTemplatesForm mealTemplates={settings.mealTemplates} readOnly={!canMutateFitness} />
           </section>
 
           <section className="space-y-3">
@@ -68,12 +71,12 @@ export default function SettingsPage() {
                 }}
               />
             ) : null}
-            {program ? <WorkoutProgramForm program={program} /> : null}
+            {program ? <WorkoutProgramForm program={program} readOnly={!canMutateFitness} /> : null}
           </section>
 
           <section className="space-y-3">
             <SectionHeader title="Metas y unidades" />
-            <GoalAndUnitsForm settings={settings} />
+            <GoalAndUnitsForm settings={settings} readOnly={!canMutateFitness} />
           </section>
 
           <section className="space-y-3">
@@ -81,10 +84,12 @@ export default function SettingsPage() {
             <ThemeSettingsCard />
           </section>
 
-          <section className="space-y-3">
-            <SectionHeader title="Tus datos" description="Los datos se almacenan en la nube. Restablece la configuración a los valores predeterminados si es necesario." />
-            <DataManagementCard />
-          </section>
+          {canMutateFitness ? (
+            <section className="space-y-3">
+              <SectionHeader title="Tus datos" description="Los datos se almacenan en la nube. Restablece la configuración a los valores predeterminados si es necesario." />
+              <DataManagementCard />
+            </section>
+          ) : null}
 
           <section className="space-y-3">
             <SectionHeader title="Cuenta" description="Cierra sesión para salir de la aplicación." />

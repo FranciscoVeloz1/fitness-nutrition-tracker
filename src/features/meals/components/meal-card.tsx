@@ -13,9 +13,10 @@ interface MealCardProps {
   onFollowed: () => void
   onLogDetails: (values: MealLogFormValues) => void
   isSaving?: boolean
+  readOnly?: boolean
 }
 
-export function MealCard({ meal, onFollowed, onLogDetails, isSaving }: MealCardProps) {
+export function MealCard({ meal, onFollowed, onLogDetails, isSaving, readOnly = false }: MealCardProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const isFollowed = meal.status === 'followed'
 
@@ -61,44 +62,48 @@ export function MealCard({ meal, onFollowed, onLogDetails, isSaving }: MealCardP
         </div>
       ) : null}
 
-      <div className="mt-4 flex items-center justify-between border-t pt-3">
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id={`followed-${meal.slot}`}
-            checked={isFollowed}
-            onCheckedChange={(checked) => {
-              if (checked) {
-                onFollowed()
-              } else {
-                setDialogOpen(true)
-              }
-            }}
-          />
-          <Label htmlFor={`followed-${meal.slot}`} className="cursor-pointer text-sm font-normal">
-            Seguí la comida planeada
-          </Label>
+      {!readOnly ? (
+        <div className="mt-4 flex items-center justify-between border-t pt-3">
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id={`followed-${meal.slot}`}
+              checked={isFollowed}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  onFollowed()
+                } else {
+                  setDialogOpen(true)
+                }
+              }}
+            />
+            <Label htmlFor={`followed-${meal.slot}`} className="cursor-pointer text-sm font-normal">
+              Seguí la comida planeada
+            </Label>
+          </div>
+          {!isFollowed ? (
+            <button
+              type="button"
+              onClick={() => setDialogOpen(true)}
+              className="text-primary text-xs font-medium hover:underline"
+            >
+              {meal.status === 'pending' ? 'Registrar qué pasó' : 'Editar detalles'}
+            </button>
+          ) : null}
         </div>
-        {!isFollowed ? (
-          <button
-            type="button"
-            onClick={() => setDialogOpen(true)}
-            className="text-primary text-xs font-medium hover:underline"
-          >
-            {meal.status === 'pending' ? 'Registrar qué pasó' : 'Editar detalles'}
-          </button>
-        ) : null}
-      </div>
+      ) : null}
 
-      <MealLogDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        meal={meal}
-        isSaving={isSaving}
-        onSubmit={(values) => {
-          onLogDetails(values)
-          setDialogOpen(false)
-        }}
-      />
+      {!readOnly ? (
+        <MealLogDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          meal={meal}
+          isSaving={isSaving}
+          onSubmit={(values) => {
+            onLogDetails(values)
+            setDialogOpen(false)
+          }}
+        />
+      ) : null}
     </motion.div>
   )
 }

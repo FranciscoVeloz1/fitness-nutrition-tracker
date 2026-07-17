@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { MealStatusBadge } from '@/features/meals/components/meal-status-badge'
 import { EmptyState } from '@/components/common/empty-state'
 import { ProgressRing } from '@/components/common/progress-ring'
+import { useAuth } from '@/auth/AuthProvider'
 import { useUpdateDayNotes } from '@/hooks/use-weight-mutations'
 import { computeAdherence } from '@/services/adherence'
 import { kgToDisplay, weightUnitLabel } from '@/services/units'
@@ -20,6 +21,7 @@ interface DayDetailPanelProps {
 }
 
 export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
+  const { canMutateFitness } = useAuth()
   const [notesDraft, setNotesDraft] = useState(record?.notes ?? '')
   const updateNotes = useUpdateDayNotes()
 
@@ -35,6 +37,7 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
   const adherence = computeAdherence(record.date, record.meals)
 
   const handleSaveNotes = (): void => {
+    if (!canMutateFitness) return
     updateNotes.mutate(
       { date, notes: notesDraft },
       {
@@ -101,15 +104,23 @@ export function DayDetailPanel({ date, record, unit }: DayDetailPanelProps) {
         <p className="flex items-center gap-1.5 text-sm font-medium">
           <StickyNote className="size-3.5" /> Notas
         </p>
-        <Textarea
-          rows={3}
-          value={notesDraft}
-          onChange={(event) => setNotesDraft(event.target.value)}
-          placeholder="Algo que valga la pena recordar sobre este día"
-        />
-        <Button size="sm" variant="outline" onClick={handleSaveNotes} disabled={updateNotes.isPending}>
-          {updateNotes.isPending ? 'Guardando…' : 'Guardar notas'}
-        </Button>
+        {canMutateFitness ? (
+          <>
+            <Textarea
+              rows={3}
+              value={notesDraft}
+              onChange={(event) => setNotesDraft(event.target.value)}
+              placeholder="Algo que valga la pena recordar sobre este día"
+            />
+            <Button size="sm" variant="outline" onClick={handleSaveNotes} disabled={updateNotes.isPending}>
+              {updateNotes.isPending ? 'Guardando…' : 'Guardar notas'}
+            </Button>
+          </>
+        ) : (
+          <p className="text-muted-foreground text-sm whitespace-pre-wrap">
+            {record.notes?.trim() ? record.notes : 'Sin notas'}
+          </p>
+        )}
       </div>
     </div>
   )

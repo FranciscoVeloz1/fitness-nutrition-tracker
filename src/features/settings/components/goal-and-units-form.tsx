@@ -24,7 +24,7 @@ const goalFormSchema = z.object({
 type GoalFormInput = z.input<typeof goalFormSchema>
 type GoalFormValues = z.output<typeof goalFormSchema>
 
-export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
+export function GoalAndUnitsForm({ settings, readOnly = false }: { settings: AppSettings; readOnly?: boolean }) {
   const updateSettings = useUpdateSettings()
   const form = useForm<GoalFormInput, unknown, GoalFormValues>({
     resolver: zodResolver(goalFormSchema),
@@ -43,6 +43,7 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
   }, [settings.weightUnit, settings.goalWeightKg])
 
   const handleSubmit = (values: GoalFormValues): void => {
+    if (readOnly) return
     updateSettings.mutate(
       {
         weightUnit: values.weightUnit,
@@ -57,33 +58,37 @@ export function GoalAndUnitsForm({ settings }: { settings: AppSettings }) {
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4 sm:grid-cols-2">
-      <div className="space-y-2">
-        <Label htmlFor="weightUnit">Unidad de peso</Label>
-        <Controller
-          control={form.control}
-          name="weightUnit"
-          render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger id="weightUnit" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="kg">Kilogramos (kg)</SelectItem>
-                <SelectItem value="lb">Libras (lb)</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
-        />
-      </div>
+      <fieldset disabled={readOnly} className="contents disabled:opacity-70">
+        <div className="space-y-2">
+          <Label htmlFor="weightUnit">Unidad de peso</Label>
+          <Controller
+            control={form.control}
+            name="weightUnit"
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange} disabled={readOnly}>
+                <SelectTrigger id="weightUnit" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="kg">Kilogramos (kg)</SelectItem>
+                  <SelectItem value="lb">Libras (lb)</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="goalWeight">Peso objetivo ({form.watch('weightUnit')})</Label>
-        <Input id="goalWeight" type="number" step="0.1" inputMode="decimal" {...form.register('goalWeight')} />
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="goalWeight">Peso objetivo ({form.watch('weightUnit')})</Label>
+          <Input id="goalWeight" type="number" step="0.1" inputMode="decimal" {...form.register('goalWeight')} />
+        </div>
 
-      <Button type="submit" disabled={updateSettings.isPending} className="sm:col-span-2 sm:w-fit">
-        {updateSettings.isPending ? 'Guardando…' : 'Guardar preferencias'}
-      </Button>
+        {!readOnly ? (
+          <Button type="submit" disabled={updateSettings.isPending} className="sm:col-span-2 sm:w-fit">
+            {updateSettings.isPending ? 'Guardando…' : 'Guardar preferencias'}
+          </Button>
+        ) : null}
+      </fieldset>
     </form>
   )
 }

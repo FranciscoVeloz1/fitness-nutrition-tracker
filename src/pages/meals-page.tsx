@@ -3,9 +3,11 @@ import { SectionHeader } from '@/components/common/section-header'
 import { DateNavigator } from '@/components/common/date-navigator'
 import { ListSkeleton } from '@/components/common/loading-skeletons'
 import { ErrorState } from '@/components/common/error-state'
+import { ReadOnlyNotice } from '@/components/common/read-only-notice'
 import { MealCard } from '@/features/meals/components/meal-card'
 import { AdherenceSummary } from '@/features/meals/components/adherence-summary'
 import type { MealLogFormValues } from '@/features/meals/components/meal-log-dialog'
+import { useAuth } from '@/auth/AuthProvider'
 import { useDailyRecord } from '@/hooks/use-daily-record'
 import { useUpdateMeal } from '@/hooks/use-meal-mutations'
 import { useUiStore } from '@/state/ui-store'
@@ -15,11 +17,13 @@ import type { MealSlot } from '@/types/meal'
 export default function MealsPage() {
   const selectedDate = useUiStore((state) => state.selectedDate)
   const setSelectedDate = useUiStore((state) => state.setSelectedDate)
+  const { canMutateFitness } = useAuth()
 
   const { data: record, isPending, isError, error, refetch } = useDailyRecord(selectedDate)
   const updateMeal = useUpdateMeal()
 
   const handleFollowed = (slot: MealSlot) => {
+    if (!canMutateFitness) return
     updateMeal.mutate(
       { date: selectedDate, slot, status: 'followed' },
       {
@@ -31,6 +35,7 @@ export default function MealsPage() {
   }
 
   const handleLogDetails = (slot: MealSlot, values: MealLogFormValues) => {
+    if (!canMutateFitness) return
     updateMeal.mutate(
       { date: selectedDate, slot, ...values },
       {
@@ -50,6 +55,8 @@ export default function MealsPage() {
         action={<DateNavigator date={selectedDate} onChange={setSelectedDate} />}
       />
 
+      {!canMutateFitness ? <ReadOnlyNotice /> : null}
+
       {isPending ? <ListSkeleton count={5} /> : null}
 
       {isError ? (
@@ -65,6 +72,7 @@ export default function MealsPage() {
               <MealCard
                 key={meal.slot}
                 meal={meal}
+                readOnly={!canMutateFitness}
                 isSaving={updateMeal.isPending}
                 onFollowed={() => handleFollowed(meal.slot)}
                 onLogDetails={(values) => handleLogDetails(meal.slot, values)}

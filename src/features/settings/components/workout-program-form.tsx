@@ -79,7 +79,7 @@ function moveItem<T>(items: T[], from: number, to: number): T[] {
   return next
 }
 
-export function WorkoutProgramForm({ program }: { program: WorkoutProgram }) {
+export function WorkoutProgramForm({ program, readOnly = false }: { program: WorkoutProgram; readOnly?: boolean }) {
   const updateProgram = useUpdateWorkoutProgram()
   const form = useForm<WorkoutProgramFormInput, unknown, WorkoutProgramFormValues>({
     resolver: zodResolver(workoutProgramFormSchema),
@@ -97,6 +97,7 @@ export function WorkoutProgramForm({ program }: { program: WorkoutProgram }) {
   }, [program.id, program.updatedAt])
 
   const handleSubmit = (values: WorkoutProgramFormValues): void => {
+    if (readOnly) return
     updateProgram.mutate(
       {
         name: values.name,
@@ -134,6 +135,7 @@ export function WorkoutProgramForm({ program }: { program: WorkoutProgram }) {
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <fieldset disabled={readOnly} className="space-y-4 disabled:opacity-70">
       <div className="space-y-1.5">
         <Label htmlFor="program-name">Nombre del programa</Label>
         <Input id="program-name" {...form.register('name')} />
@@ -278,31 +280,34 @@ export function WorkoutProgramForm({ program }: { program: WorkoutProgram }) {
         )
       })}
 
-      <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => {
-            append({
-              name: 'Nuevo día',
-              isRest: false,
-              category: 'strength',
-              exercises: [{ name: '', sets: 3, reps: '8-12', notes: '' }],
-            })
-          }}
-        >
-          <Plus className="size-4" />
-          Añadir día
-        </Button>
-        <Button type="submit" disabled={updateProgram.isPending}>
-          {updateProgram.isPending ? 'Guardando…' : 'Guardar programa'}
-        </Button>
-      </div>
+      {!readOnly ? (
+        <div className="flex flex-wrap gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              append({
+                name: 'Nuevo día',
+                isRest: false,
+                category: 'strength',
+                exercises: [{ name: '', sets: 3, reps: '8-12', notes: '' }],
+              })
+            }}
+          >
+            <Plus className="size-4" />
+            Añadir día
+          </Button>
+          <Button type="submit" disabled={updateProgram.isPending}>
+            {updateProgram.isPending ? 'Guardando…' : 'Guardar programa'}
+          </Button>
+        </div>
+      ) : null}
       {form.formState.errors.days?.message || form.formState.errors.days?.root?.message ? (
         <p className="text-destructive text-xs">
           {form.formState.errors.days.message ?? form.formState.errors.days.root?.message}
         </p>
       ) : null}
+      </fieldset>
     </form>
   )
 }

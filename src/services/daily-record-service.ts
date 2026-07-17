@@ -15,27 +15,42 @@ function seedMealsFromTemplates(settings: Awaited<ReturnType<typeof settingsRepo
   }))
 }
 
-/**
- * Fetches a day's record, creating and persisting a fresh one (seeded from
- * the current meal templates) the first time that date is touched. Every
- * mutation in this module funnels through here so "day exists with the
- * right meal slots" is guaranteed in one place.
- */
-export async function getOrCreateDailyRecord(date: DateKey): Promise<DailyRecord> {
-  const existing = await dailyRecordsRepository.get(date)
-  if (existing) {
-    return existing
-  }
-
+async function buildSeededRecord(date: DateKey): Promise<DailyRecord> {
   const settings = await settingsRepository.get()
   const now = new Date().toISOString()
-  const record: DailyRecord = {
+  return {
     date,
     meals: seedMealsFromTemplates(settings),
     createdAt: now,
     updatedAt: now,
   }
-  return dailyRecordsRepository.save(record)
+}
+
+/**
+ * Fetches a day's record, creating and persisting a fresh one (seeded from
+ * the current meal templates) the first time that date is touched. Every
+ * mutation in this module funnels through here so "day exists with the
+ * right meal slots" is guaranteed in one place.
+ *
+ * Pass `allowCreate: false` for READ_ONLY sessions so browsing a missing day
+ * never issues a PUT (API rejects fitness mutations for READ_ONLY).
+ */
+export async function getOrCreateDailyRecord(
+  date: DateKey,
+  options: { allowCreate?: boolean } = {},
+): Promise<DailyRecord> {
+  const allowCreate = options.allowCreate !== false
+  const existing = await dailyRecordsRepository.get(date)
+  if (existing) {
+    return existing
+  }
+
+  const seeded = await buildSeededRecord(date)
+  if (!allowCreate) {
+    return seeded
+  }
+
+  return dailyRecordsRepository.save(seeded)
 }
 
 export async function updateMealEntry(update: MealEntryUpdate): Promise<DailyRecord> {

@@ -1,5 +1,13 @@
 export type UserRole = 'READ_ONLY' | 'ADMIN'
 
+/** Identity returned by login (no role — clients must call /me). */
+export type LoginUser = {
+  id: string
+  email: string
+  name: string
+}
+
+/** Full user from GET /auth/me, including global role. */
 export type AuthUser = {
   id: string
   email: string
@@ -13,7 +21,7 @@ export type LoginRequest = {
 }
 
 export type LoginResponse = {
-  user: AuthUser
+  user: LoginUser
   accessToken: string
   refreshToken: string
 }

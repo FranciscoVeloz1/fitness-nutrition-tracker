@@ -11,7 +11,7 @@ import {
 } from 'react'
 import * as authApi from '@/api/auth'
 import { ApiError, request, type RequestOptions } from '@/api/http'
-import type { AuthUser } from '@/api/types'
+import type { AuthUser, UserRole } from '@/api/types'
 import { setFitnessApiSession } from '@/api/fitness-session'
 import { clearRefreshToken, readRefreshToken, writeRefreshToken } from './session-storage'
 import { clearLocalFitnessDomainData } from './clear-local-fitness-data'
@@ -21,6 +21,9 @@ export type AuthStatus = 'bootstrapping' | 'authenticated' | 'anonymous'
 export type AuthContextValue = {
   status: AuthStatus
   user: AuthUser | null
+  role: UserRole | null
+  /** Fitness mutations require ADMIN; READ_ONLY can only read self data. */
+  canMutateFitness: boolean
   accessToken: string | null
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
@@ -170,9 +173,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [status, user, accessToken, authorizedRequest])
 
   const value = useMemo<AuthContextValue>(() => {
+    const role = user?.role ?? null
     return {
       status,
       user,
+      role,
+      canMutateFitness: role === 'ADMIN',
       accessToken,
       login,
       logout,
