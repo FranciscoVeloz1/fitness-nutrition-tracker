@@ -4,9 +4,11 @@ import { SectionHeader } from '@/components/common/section-header'
 import { DateNavigator } from '@/components/common/date-navigator'
 import { CardSkeleton } from '@/components/common/loading-skeletons'
 import { ErrorState } from '@/components/common/error-state'
+import { ReadOnlyNotice } from '@/components/common/read-only-notice'
 import { CurrentSessionCard } from '@/features/workout/components/current-session-card'
 import { WorkoutSessionSnapshot } from '@/features/workout/components/workout-session-snapshot'
 import { WorkoutStats } from '@/features/workout/components/workout-stats'
+import { useAuth } from '@/auth/AuthProvider'
 import { useDailyRecord } from '@/hooks/use-daily-record'
 import { useDailyRecordsRange } from '@/hooks/use-daily-records-range'
 import {
@@ -24,6 +26,7 @@ const STATS_WINDOW_DAYS = 30
 export default function WorkoutPage() {
   const selectedDate = useUiStore((state) => state.selectedDate)
   const setSelectedDate = useUiStore((state) => state.setSelectedDate)
+  const { canMutateFitness } = useAuth()
   const today = todayKey()
   const isToday = selectedDate === today
 
@@ -39,6 +42,7 @@ export default function WorkoutPage() {
   const [notes, setNotes] = useState('')
 
   const handleCompleteChange = (completed: boolean): void => {
+    if (!canMutateFitness) return
     if (!completed) {
       toast.message('El progreso del programa no retrocede al desmarcar')
       return
@@ -73,6 +77,8 @@ export default function WorkoutPage() {
         action={<DateNavigator date={selectedDate} onChange={setSelectedDate} />}
       />
 
+      {!canMutateFitness ? <ReadOnlyNotice /> : null}
+
       {(currentQuery.isPending || recordQuery.isPending) && isToday ? <CardSkeleton /> : null}
       {isToday && currentQuery.isError ? (
         <ErrorState
@@ -89,6 +95,7 @@ export default function WorkoutPage() {
           dayIndex={currentQuery.data.dayIndex}
           dayCount={programQuery.data.days.length}
           completedToday={completedToday}
+          readOnly={!canMutateFitness}
           isCompleting={completeSession.isPending}
           durationMinutes={durationMinutes}
           intensity={intensity}

@@ -37,10 +37,11 @@ interface WeightFormProps {
   unit: WeightUnit
   defaultValues?: WeightEntry
   isSaving?: boolean
+  readOnly?: boolean
   onSubmit: (entry: WeightEntry) => void
 }
 
-export function WeightForm({ unit, defaultValues, isSaving, onSubmit }: WeightFormProps) {
+export function WeightForm({ unit, defaultValues, isSaving, readOnly = false, onSubmit }: WeightFormProps) {
   const form = useForm<WeightFormInput, unknown, WeightFormValues>({
     resolver: zodResolver(weightFormSchema),
     defaultValues: {
@@ -75,39 +76,43 @@ export function WeightForm({ unit, defaultValues, isSaving, onSubmit }: WeightFo
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="glass-panel space-y-4 rounded-2xl p-5">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="weight">Peso ({weightUnitLabel(unit)})</Label>
-          <Input id="weight" type="number" step="0.1" inputMode="decimal" {...form.register('weight')} />
-          {form.formState.errors.weight ? (
-            <p className="text-destructive text-xs">{form.formState.errors.weight.message}</p>
-          ) : null}
+      <fieldset disabled={readOnly} className="space-y-4 disabled:opacity-70">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="weight">Peso ({weightUnitLabel(unit)})</Label>
+            <Input id="weight" type="number" step="0.1" inputMode="decimal" {...form.register('weight')} />
+            {form.formState.errors.weight ? (
+              <p className="text-destructive text-xs">{form.formState.errors.weight.message}</p>
+            ) : null}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="bodyFatPct">% de grasa corporal (opcional)</Label>
+            <Input id="bodyFatPct" type="number" step="0.1" inputMode="decimal" {...form.register('bodyFatPct')} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="muscleMassPct">% de masa muscular (opcional)</Label>
+            <Input id="muscleMassPct" type="number" step="0.1" inputMode="decimal" {...form.register('muscleMassPct')} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="waist">Cintura, cm (opcional)</Label>
+            <Input id="waist" type="number" step="0.1" inputMode="decimal" {...form.register('waist')} />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="bodyFatPct">% de grasa corporal (opcional)</Label>
-          <Input id="bodyFatPct" type="number" step="0.1" inputMode="decimal" {...form.register('bodyFatPct')} />
+          <Label htmlFor="notes">Notas (opcional)</Label>
+          <Textarea id="notes" rows={2} placeholder="¿Cómo te sientes hoy?" {...form.register('notes')} />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="muscleMassPct">% de masa muscular (opcional)</Label>
-          <Input id="muscleMassPct" type="number" step="0.1" inputMode="decimal" {...form.register('muscleMassPct')} />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="waist">Cintura, cm (opcional)</Label>
-          <Input id="waist" type="number" step="0.1" inputMode="decimal" {...form.register('waist')} />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="notes">Notas (opcional)</Label>
-        <Textarea id="notes" rows={2} placeholder="¿Cómo te sientes hoy?" {...form.register('notes')} />
-      </div>
-
-      <Button type="submit" disabled={isSaving} className="w-full sm:w-auto">
-        {isSaving ? 'Guardando…' : 'Guardar peso'}
-      </Button>
+        {!readOnly ? (
+          <Button type="submit" disabled={isSaving} className="w-full sm:w-auto">
+            {isSaving ? 'Guardando…' : 'Guardar peso'}
+          </Button>
+        ) : null}
+      </fieldset>
     </form>
   )
 }

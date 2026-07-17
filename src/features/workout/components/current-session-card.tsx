@@ -13,6 +13,7 @@ interface CurrentSessionCardProps {
   dayCount: number
   completedToday: boolean
   isCompleting: boolean
+  readOnly?: boolean
   durationMinutes: number
   intensity: WorkoutIntensity
   notes: string
@@ -29,6 +30,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
     dayCount,
     completedToday,
     isCompleting,
+    readOnly = false,
     durationMinutes,
     intensity,
     notes,
@@ -37,6 +39,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
     onNotesChange,
     onCompleteChange,
   } = props
+  const inputsDisabled = readOnly || completedToday || isCompleting
 
   return (
     <div className="glass-panel space-y-5 rounded-2xl p-5">
@@ -93,7 +96,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
         <Switch
           id="complete-workout"
           checked={completedToday}
-          disabled={isCompleting || completedToday}
+          disabled={inputsDisabled}
           onCheckedChange={(checked) => {
             onCompleteChange(checked)
           }}
@@ -110,7 +113,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
               type="number"
               min={0}
               value={durationMinutes}
-              disabled={completedToday || isCompleting}
+              disabled={inputsDisabled}
               onChange={(event) => {
                 onDurationChange(Number(event.target.value) || 0)
               }}
@@ -120,7 +123,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
             <Label>Intensidad</Label>
             <Select
               value={intensity}
-              disabled={completedToday || isCompleting}
+              disabled={inputsDisabled}
               onValueChange={(value) => {
                 onIntensityChange(value as WorkoutIntensity)
               }}
@@ -145,7 +148,7 @@ export function CurrentSessionCard(props: CurrentSessionCardProps) {
               id="session-notes"
               rows={2}
               value={notes}
-              disabled={completedToday || isCompleting}
+              disabled={inputsDisabled}
               onChange={(event) => {
                 onNotesChange(event.target.value)
               }}

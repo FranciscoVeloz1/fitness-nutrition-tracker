@@ -1,8 +1,7 @@
 # FitTrack — Fitness & Nutrition Tracker
 
-A premium, offline-first fitness and nutrition tracker. Log your daily meals,
-diet adherence, workouts, and weight progress — all stored locally on your
-device, no account or backend required.
+A premium fitness and nutrition tracker. Log your daily meals, diet adherence,
+workouts, and weight progress — synced to personal-api after you sign in.
 
 ![License](https://img.shields.io/badge/license-MIT-blue) ![Made with React](https://img.shields.io/badge/react-19-61dafb) ![Vite](https://img.shields.io/badge/vite-8-646cff)
 
@@ -14,9 +13,9 @@ device, no account or backend required.
 - **Weight Tracking** — log weight, body fat %, muscle mass %, and waist. Charts for trend, highest/lowest, and progress toward a goal weight.
 - **History** — a calendar view of every logged day; click any day to see its meals, workout, weight, and notes.
 - **Analytics** — adherence trend, monthly comparison, and a GitHub-style contribution heatmap.
-- **Settings** — customize meal names/times, goal weight, units (kg/lb), theme, and export/import/reset your data as JSON.
+- **Settings** — customize meal names/times, goal weight, units (kg/lb), theme, and reset cloud settings (ADMIN only).
 - **PWA** — installable, works offline, and caches the app shell via a service worker.
-- **100% local** — all data lives in IndexedDB (with an automatic LocalStorage fallback) behind a storage abstraction, so a backend/cloud sync can be added later without touching UI code.
+- **Account roles** — personal-api global `READ_ONLY` | `ADMIN`: both can read own fitness data; only `ADMIN` can mutate.
 
 ## Tech Stack
 
@@ -105,7 +104,7 @@ npm run preview       # Preview the production build locally
 
 ### Data & Privacy
 
-Fitness data is synced to **personal-api** under your account (`/api/v1/users/:userId/fitness/*`) after login. personal-api users have a global `role` (`READ_ONLY` | `ADMIN`); this app uses the same session for **self** fitness only and does not manage roles. Export/import from Settings still works for local JSON backups.
+Fitness data is synced to **personal-api** under your account (`/api/v1/users/:userId/fitness/*`) after login. Users have a global `role` (`READ_ONLY` | `ADMIN`). Fitness is **self-only** for both roles: you only access your own `userId`. `READ_ONLY` can GET settings and daily data; mutations (PUT/POST) require `ADMIN`. Login returns identity only — role comes from `GET /auth/me`.
 
 ## Deployment (GitHub Pages via GitHub Actions)
 

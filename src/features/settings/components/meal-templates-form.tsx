@@ -24,7 +24,13 @@ const mealTemplatesFormSchema = z.object({
 
 type MealTemplatesFormValues = z.infer<typeof mealTemplatesFormSchema>
 
-export function MealTemplatesForm({ mealTemplates }: { mealTemplates: MealTemplate[] }) {
+export function MealTemplatesForm({
+  mealTemplates,
+  readOnly = false,
+}: {
+  mealTemplates: MealTemplate[]
+  readOnly?: boolean
+}) {
   const updateSettings = useUpdateSettings()
   const form = useForm<MealTemplatesFormValues>({
     resolver: zodResolver(mealTemplatesFormSchema),
@@ -37,6 +43,7 @@ export function MealTemplatesForm({ mealTemplates }: { mealTemplates: MealTempla
   }, [mealTemplates])
 
   const handleSubmit = (values: MealTemplatesFormValues): void => {
+    if (readOnly) return
     updateSettings.mutate(
       { mealTemplates: values.mealTemplates },
       {
@@ -48,25 +55,29 @@ export function MealTemplatesForm({ mealTemplates }: { mealTemplates: MealTempla
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
-      {mealTemplates.map((template, index) => (
-        <div key={template.slot} className="grid grid-cols-[1fr_auto] items-end gap-3 rounded-xl border p-3 sm:grid-cols-[2fr_1fr]">
-          <div className="space-y-1.5">
-            <Label htmlFor={`meal-name-${template.slot}`} className="text-muted-foreground text-xs">
-              {MEAL_SLOT_LABELS[template.slot]}
-            </Label>
-            <Input id={`meal-name-${template.slot}`} {...form.register(`mealTemplates.${index}.name`)} />
+      <fieldset disabled={readOnly} className="space-y-3 disabled:opacity-70">
+        {mealTemplates.map((template, index) => (
+          <div key={template.slot} className="grid grid-cols-[1fr_auto] items-end gap-3 rounded-xl border p-3 sm:grid-cols-[2fr_1fr]">
+            <div className="space-y-1.5">
+              <Label htmlFor={`meal-name-${template.slot}`} className="text-muted-foreground text-xs">
+                {MEAL_SLOT_LABELS[template.slot]}
+              </Label>
+              <Input id={`meal-name-${template.slot}`} {...form.register(`mealTemplates.${index}.name`)} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor={`meal-time-${template.slot}`} className="text-muted-foreground text-xs">
+                Hora
+              </Label>
+              <Input id={`meal-time-${template.slot}`} type="time" {...form.register(`mealTemplates.${index}.time`)} />
+            </div>
           </div>
-          <div className="space-y-1.5">
-            <Label htmlFor={`meal-time-${template.slot}`} className="text-muted-foreground text-xs">
-              Hora
-            </Label>
-            <Input id={`meal-time-${template.slot}`} type="time" {...form.register(`mealTemplates.${index}.time`)} />
-          </div>
-        </div>
-      ))}
-      <Button type="submit" disabled={updateSettings.isPending}>
-        {updateSettings.isPending ? 'Guardando…' : 'Guardar plan de comidas'}
-      </Button>
+        ))}
+        {!readOnly ? (
+          <Button type="submit" disabled={updateSettings.isPending}>
+            {updateSettings.isPending ? 'Guardando…' : 'Guardar plan de comidas'}
+          </Button>
+        ) : null}
+      </fieldset>
     </form>
   )
 }
