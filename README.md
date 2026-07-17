@@ -105,10 +105,7 @@ npm run preview       # Preview the production build locally
 
 ### Data & Privacy
 
-Everything you log stays in your browser's IndexedDB. Nothing is sent to a
-server. Use **Settings → Export data** to download a JSON backup, and
-**Import data** to restore it (e.g. after clearing browser storage or moving
-to a new device).
+Fitness data is synced to **personal-api** under your account (`/api/v1/users/:userId/fitness/*`) after login. personal-api users have a global `role` (`READ_ONLY` | `ADMIN`); this app uses the same session for **self** fitness only and does not manage roles. Export/import from Settings still works for local JSON backups.
 
 ## Deployment (GitHub Pages via GitHub Actions)
 
